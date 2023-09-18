@@ -60,7 +60,7 @@ To get started with the Shelter Care Application, follow these steps:
 1. **Clone the Repository**: Clone the Shelter Care Application repository to your local development environment.
 
    ```bash
-   git clone https://github.com/yourusername/shelter-care-app.git
+   git clone https://github.com/EmirhanAksoy/ShelterCare.git
    ```
 
 2. **Set Up PostgreSQL**: Install and set up PostgreSQL as the database system for the application. Ensure you have the necessary connection string information.
