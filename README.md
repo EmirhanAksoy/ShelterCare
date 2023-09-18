@@ -1,4 +1,4 @@
-# Shelter Care Application
+# Shelter Care 🐈 🐕 🏡
 
 The Shelter Care Application is a monolithic software solution designed to help organizations organize and manage animal shelters effectively. It simplifies the management of shelter-related tasks, making it easier to care for and support animals in need.
 
