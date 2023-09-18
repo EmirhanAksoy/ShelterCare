@@ -1,6 +1,4 @@
 ﻿namespace ShelterCare.Core.Domain.Base;
-
-public interface IEntity { }
 public class Entity : IEntity
 {
     public string Id { get; set; }
