@@ -21,7 +21,7 @@ Animal shelters play a crucial role in the welfare of animals. The Shelter Care 
 
 The Shelter Care Application is developed using the following technologies:
 
-- **.NET 7**: The application is built on the latest version of the .NET framework, ensuring high performance and scalability.
+- **.NET 8**: The application is built on the latest version of the .NET framework, ensuring high performance and scalability.
 
 - **Dapper**: Dapper is used as the data access library to interact with the PostgreSQL database. It provides a fast and efficient way to query and manipulate data.
 
