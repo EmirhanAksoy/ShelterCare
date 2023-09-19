@@ -1,13 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
     <UserSecretsId>58f694df-8b32-4713-b909-b4bc5d98fcf3</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Validators\**" />
+    <Content Remove="Validators\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="Validators\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
@@ -16,11 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Reponses\" />
-    <Folder Include="Contracts\Requests\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Validators\" />
-    <Folder Include="Routes\" />
+    <ProjectReference Include="..\ShelterCare.Core\ShelterCare.Core.csproj" />
   </ItemGroup>
 
 </Project>
