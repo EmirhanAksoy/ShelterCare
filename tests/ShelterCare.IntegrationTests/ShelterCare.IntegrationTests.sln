@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelterCare.IntegrationTests", "ShelterCare.IntegrationTests.csproj", "{3ACC8231-BDF6-4338-816C-67C11F6F8B32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelterCare.IntegrationTests", "ShelterCare.IntegrationTests.csproj", "{3ACC8231-BDF6-4338-816C-67C11F6F8B32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelterCare.API", "..\..\src\ShelterCare.API\ShelterCare.API.csproj", "{6D421BB7-6444-45E5-AB3E-E8624A2CE891}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3ACC8231-BDF6-4338-816C-67C11F6F8B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ACC8231-BDF6-4338-816C-67C11F6F8B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ACC8231-BDF6-4338-816C-67C11F6F8B32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
