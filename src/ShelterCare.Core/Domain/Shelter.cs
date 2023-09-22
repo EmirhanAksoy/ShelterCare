@@ -9,7 +9,6 @@ public class Shelter : Entity
     public DateTime FoundationDate { get; set; }
     public double TotalAreaInSquareMeters { get; set; }
     public string Address { get; set; }
-    public Location Coordinates { get; set; }
     public string Website { get; set; }
 }
 

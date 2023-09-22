@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShelterCare.Core\ShelterCare.Core.csproj" />
+    <ProjectReference Include="..\ShelterCare.Infrastructure\ShelterCare.Infrastructure.csproj" />
+  </ItemGroup>
 
 </Project>

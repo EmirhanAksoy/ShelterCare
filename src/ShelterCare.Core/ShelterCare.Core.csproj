@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Extensions\" />
+    <Compile Remove="Common\Extensions\**" />
+    <EmbeddedResource Remove="Common\Extensions\**" />
+    <None Remove="Common\Extensions\**" />
   </ItemGroup>
 
 </Project>

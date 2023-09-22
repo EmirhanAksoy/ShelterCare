@@ -1,3 +1,4 @@
+using ShelterCare.Infrastructure.Repository.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,9 @@ builder.Services.AddControllers();
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+string? dbConnectionString = builder.Configuration.GetConnectionString("ShelterCare");
+builder.Services.AddNpgsqlConnection(dbConnectionString);
 
 var app = builder.Build();
 

@@ -4,8 +4,9 @@ namespace ShelterCare.Core.Abstractions.Repository;
 
 public interface IRepository<T> where T : class, IEntity
 {
-    T Get(string id);
-    bool Update(T entity);
-    bool Delete(string id);
-    List<T> GetAll();
+    Task<T> Get(string id);
+    Task<T> Update(T entity);
+    Task<bool> Delete(string id);
+    Task<T> Create(T entity);
+    Task<List<T>> GetAll();
 }

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
     <UserSecretsId>58f694df-8b32-4713-b909-b4bc5d98fcf3</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
@@ -23,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShelterCare.Core\ShelterCare.Core.csproj" />
+    <ProjectReference Include="..\ShelterCare.Application\ShelterCare.Application.csproj" />
   </ItemGroup>
 
 </Project>
