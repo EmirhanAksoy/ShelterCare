@@ -9,6 +9,5 @@ public sealed class ShelterUpdateRequest
     public  DateTime FoundationDate { get; set; } = DateTime.MinValue;
     public  double TotalAreaInSquareMeters { get; set; } = double.MinValue;
     public  string Address { get; set; } = string.Empty;
-    public Location Coordinates { get; set; } = new();
     public  string Website { get; set; } = string.Empty;
 }

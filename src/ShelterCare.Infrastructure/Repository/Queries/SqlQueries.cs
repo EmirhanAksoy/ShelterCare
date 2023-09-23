@@ -6,11 +6,11 @@ public static class SqlQueries
 {
     public static class ShelterRepositoryQueries
     {
-        public const string GetAll = "SELECT * FROM dbo.Shelters";
-        public const string Get = "SELECT * FROM dbo.Shelters WHERE id = '@id'";
-        public const string Delete = "DELETE dbo.Shelters WHERE id = '@id'";
+        public const string GetAll = "SELECT * FROM Shelters";
+        public const string Get = "SELECT * FROM Shelters WHERE id = '@id'";
+        public const string Delete = "DELETE Shelters WHERE id = '@id'";
         public const string Update = $"""
-            UPDATE dbo.Shelters
+            UPDATE Shelters
             SET
             {nameof(Shelter.Name)} = '@Name',
             {nameof(Shelter.OwnerFullName)} = '@OwnerFullName',
@@ -22,7 +22,7 @@ public static class SqlQueries
             WHERE id = '@id'
             """;
         public const string Create = $"""
-            INSERT INTO dbo.Shelters
+            INSERT INTO Shelters
             {nameof(Shelter.Name)},
             {nameof(Shelter.OwnerFullName)},
             {nameof(Shelter.Address)},

@@ -2,16 +2,26 @@
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Contracts.Responses;
 using ShelterCare.API.Routes;
+using ShelterCare.Core.Abstractions.Repository;
 
 namespace ShelterCare.API.Controllers;
 
 [ApiController]
 public class ShelterController : ControllerBase
 {
-    [HttpGet(ShelterRoutes.GetAll)]
-    public ActionResult<List<ShelterResponse>> GetAll()
+
+    private readonly IShelterRepository _shelterRepository;
+    public ShelterController(IShelterRepository shelterRepository)
     {
-        return Ok(new List<ShelterResponse>());
+        _shelterRepository = shelterRepository;
+    }
+
+
+    [HttpGet(ShelterRoutes.GetAll)]
+    public async Task<ActionResult<List<ShelterResponse>>> GetAll()
+    {
+        var result = await _shelterRepository.GetAll().ConfigureAwait(false);
+        return Ok(result);
     }
 
     [HttpGet(ShelterRoutes.Get)]

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\ShelterCare.Infrastructure\ShelterCare.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shelter\" />
+  </ItemGroup>
+
 </Project>

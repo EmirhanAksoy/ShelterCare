@@ -1,4 +1,7 @@
+using ShelterCare.Core.Abstractions.Repository;
+using ShelterCare.Infrastructure.Repository;
 using ShelterCare.Infrastructure.Repository.Extensions;
+using ShelterCare.Infrastructure.Repository.Init;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,9 @@ builder.Services.AddSwaggerGen();
 
 string? dbConnectionString = builder.Configuration.GetConnectionString("ShelterCare");
 builder.Services.AddNpgsqlConnection(dbConnectionString);
+
+
+builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
 
 var app = builder.Build();
 

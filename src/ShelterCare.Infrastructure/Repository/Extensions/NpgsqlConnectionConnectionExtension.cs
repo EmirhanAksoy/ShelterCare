@@ -10,7 +10,7 @@ public static class NpgsqlConnectionConnectionExtension
     {
         serviceCollection.AddTransient<IDbConnection>(_ =>
         {
-            return new NpgsqlConnection(connectionString);
+            return new NpgsqlConnection(connectionString); 
         });
     }
 }
