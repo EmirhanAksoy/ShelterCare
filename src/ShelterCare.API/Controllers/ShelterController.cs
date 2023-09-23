@@ -1,26 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Contracts.Responses;
 using ShelterCare.API.Routes;
-using ShelterCare.Core.Abstractions.Repository;
+using ShelterCare.Application;
 
 namespace ShelterCare.API.Controllers;
 
 [ApiController]
 public class ShelterController : ControllerBase
 {
-
-    private readonly IShelterRepository _shelterRepository;
-    public ShelterController(IShelterRepository shelterRepository)
+    private readonly IMediator _mediator;
+    public ShelterController(IMediator mediator)
     {
-        _shelterRepository = shelterRepository;
+        _mediator = mediator;
     }
 
-
     [HttpGet(ShelterRoutes.GetAll)]
-    public async Task<ActionResult<List<ShelterResponse>>> GetAll()
+    public async Task<ActionResult<Response<List<ShelterResponse>>>> GetAll()
     {
-        var result = await _shelterRepository.GetAll().ConfigureAwait(false);
+        var result = await _mediator.Send(new GetAllSheltersQuery()).ConfigureAwait(false);
         return Ok(result);
     }
 

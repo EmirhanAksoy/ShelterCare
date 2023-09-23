@@ -6,12 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShelterCare.Core\ShelterCare.Core.csproj" />
     <ProjectReference Include="..\ShelterCare.Infrastructure\ShelterCare.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shelter\" />
+    <Folder Include="Shelter\Commands\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
 
 </Project>

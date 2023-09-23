@@ -1,6 +1,4 @@
-﻿using ShelterCare.Core.Domain;
-
-namespace ShelterCare.API.Contracts.Requests;
+﻿namespace ShelterCare.API.Contracts.Requests;
 
 public sealed class ShelterUpdateRequest
 {

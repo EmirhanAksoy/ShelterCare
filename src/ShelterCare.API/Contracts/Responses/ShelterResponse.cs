@@ -1,6 +1,4 @@
-﻿using ShelterCare.Core.Domain;
-
-namespace ShelterCare.API.Contracts.Responses;
+﻿namespace ShelterCare.API.Contracts.Responses;
 
 public sealed class ShelterResponse
 {
