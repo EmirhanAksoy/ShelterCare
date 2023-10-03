@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Contracts.Responses;
+using ShelterCare.API.Mapper.ShelterMapper;
 using ShelterCare.API.Routes;
 using ShelterCare.Application;
 
@@ -17,28 +18,32 @@ public class ShelterController : ControllerBase
     }
 
     [HttpGet(ShelterRoutes.GetAll)]
-    public async Task<ActionResult<Response<List<ShelterResponse>>>> GetAll()
+    public async Task<ActionResult<Response<List<ShelterCreatedResponse>>>> GetAll()
     {
         var result = await _mediator.Send(new GetAllSheltersQuery()).ConfigureAwait(false);
         return Ok(result);
     }
 
     [HttpGet(ShelterRoutes.Get)]
-    public ActionResult<ShelterResponse> Get([FromRoute]string id)
+    public ActionResult<ShelterCreatedResponse> Get([FromRoute]string id)
     {
-        return Ok(new ShelterResponse());
+        return Ok(new ShelterCreatedResponse());
     }
 
     [HttpPost(ShelterRoutes.Create)]
-    public ActionResult<ShelterResponse> Create([FromBody] ShelterCreateRequest shelterCreateRequest)
+    public async Task<ActionResult<Response<ShelterCreatedResponse>>> Create([FromBody] ShelterCreateRequest shelterCreateRequest)
     {
-        return Ok(new ShelterResponse());
+        ShelterCreateRequestMapper shelterCreateRequestMapper = new();
+        var result = await _mediator.Send(shelterCreateRequestMapper.CreateRequestToCommand(shelterCreateRequest)).ConfigureAwait(false);
+        ShelterCreatedResponseMapper shelterCreatedResponseMapper = new();
+        var response = Response<ShelterCreatedResponse>.SuccessResult(shelterCreatedResponseMapper.ShelterToShelterCreatedResponse(result.Data));
+        return Ok(response);
     }
 
     [HttpPost(ShelterRoutes.Update)]
-    public ActionResult<ShelterResponse> Update([FromRoute]string id,[FromBody] ShelterUpdateRequest shelterUpdateRequest)
+    public ActionResult<ShelterCreatedResponse> Update([FromRoute]string id,[FromBody] ShelterUpdateRequest shelterUpdateRequest)
     {
-        return Ok(new ShelterResponse());
+        return Ok(new ShelterCreatedResponse());
     }
 
     [HttpDelete(ShelterRoutes.Delete)]

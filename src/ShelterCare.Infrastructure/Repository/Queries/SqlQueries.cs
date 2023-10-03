@@ -23,16 +23,20 @@ public static class SqlQueries
             """;
         public const string Create = $"""
             INSERT INTO Shelters
+            (
             {nameof(Shelter.Name)},
+            {nameof(Shelter.IsActive)},
             {nameof(Shelter.OwnerFullName)},
             {nameof(Shelter.Address)},
             {nameof(Shelter.FoundationDate)},
             {nameof(Shelter.CreateDate)},
             {nameof(Shelter.CreateUserId)},
             {nameof(Shelter.Website)}
+            )
             VALUES
             (
              '@Name',
+             '@IsActive',
              '@OwnerFullName',
              '@Address',
              '@FoundationDate',
@@ -40,6 +44,8 @@ public static class SqlQueries
              '@CreateUserId',
              '@Website'
             )
+
+            RETURNING *
             """;
     }
 }

@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using ShelterCare.Core.Abstractions.Repository;
+using System;
 
 namespace ShelterCare.Application;
 
@@ -17,12 +19,38 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
     }
 
 
-    public Task<Response<Shelter>> Handle(CreateShelterCommand request, CancellationToken cancellationToken)
+    public async Task<Response<Shelter>> Handle(CreateShelterCommand request, CancellationToken cancellationToken)
     {
-        // DO VALIDATION 
+        try
+        {
+            CreateShelterCommandValidation validationRules = new();
+            var validationResult = await validationRules.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
+                _logger.LogError(ValidationError.EventId, "{message} : {@errorMessages}", ValidationError.Message, errorMessages);
+                return Response<Shelter>.ErrorResult(ValidationError.Code, errorMessages);
+            }
 
-        // CREATE AND RETURN
+            Shelter shelter = new()
+            {
+                Name = request.Name,
+                Address = request.Address,
+                OwnerFullName = request.OwnerFullName,
+                FoundationDate = request.FoundationDate,
+                TotalAreaInSquareMeters = request.TotalAreaInSquareMeters,
+                Website = request.Website
+            };
+            Shelter createdShelter = await _shelterRepository.Create(shelter);
+            _logger.LogInformation("Shelter created successfully {@shelter}", createdShelter);
+            return Response<Shelter>.SuccessResult(createdShelter);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(CreateShelterCommandFailed.EventId, exception, CreateShelterCommandFailed.Message);
+            return Response<Shelter>.ErrorResult(CreateShelterCommandFailed.Code, CreateShelterCommandFailed.Message);
+        }
 
-        throw new NotImplementedException();
+
     }
 }

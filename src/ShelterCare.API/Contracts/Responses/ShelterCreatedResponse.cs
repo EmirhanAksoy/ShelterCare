@@ -1,6 +1,6 @@
 ﻿namespace ShelterCare.API.Contracts.Responses;
 
-public sealed class ShelterResponse
+public sealed class ShelterCreatedResponse
 {
     public string Id { get; set; } = Guid.Empty.ToString();
     public string Name { get; set; } = string.Empty;

@@ -21,14 +21,16 @@ public class ShelterRepository : IShelterRepository
 
     public async Task<Shelter> Create(Shelter entity)
     {
-        string createQuery = SqlQueries.ShelterRepositoryQueries.Update
-            .Replace($"@{nameof(Shelter.Id).ToLower()}", entity.Id)
+        string createQuery = SqlQueries.ShelterRepositoryQueries.Create
+            .Replace($"@{nameof(Shelter.Id).ToLower()}", entity.Id.ToString())
             .Replace($"@{nameof(Shelter.Name)}", entity.Name)
             .Replace($"@{nameof(Shelter.OwnerFullName)}", entity.OwnerFullName)
             .Replace($"@{nameof(Shelter.Address)}", entity.Address)
             .Replace($"@{nameof(Shelter.Website)}", entity.Website)
-            .Replace($"@{nameof(Shelter.UpdateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(Shelter.UpdateUserId)}", "admin")
+            .Replace($"@{nameof(Shelter.FoundationDate)}", entity.FoundationDate.ToShortDateString())
+            .Replace($"@{nameof(Shelter.CreateDate)}", DateTime.UtcNow.ToString())
+            .Replace($"@{nameof(Shelter.CreateUserId)}", Guid.NewGuid().ToString())
+            .Replace($"@{nameof(Shelter.IsActive)}", bool.TrueString)
             .Replace($"@{nameof(Shelter.Website)}", entity.Website);
         return await _dbConnection.QuerySingleAsync<Shelter>(createQuery);
     }
@@ -53,7 +55,7 @@ public class ShelterRepository : IShelterRepository
     public async Task<Shelter> Update(Shelter entity)
     {
         string updateQuery = SqlQueries.ShelterRepositoryQueries.Update
-            .Replace($"@{nameof(Shelter.Id).ToLower()}", entity.Id)
+            .Replace($"@{nameof(Shelter.Id).ToLower()}", entity.Id.ToString())
             .Replace($"@{nameof(Shelter.Name)}", entity.Name)
             .Replace($"@{nameof(Shelter.OwnerFullName)}", entity.OwnerFullName)
             .Replace($"@{nameof(Shelter.Address)}", entity.Address)

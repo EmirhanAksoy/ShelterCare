@@ -9,6 +9,7 @@ builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFluentValidation();
 string? dbConnectionString = builder.Configuration.GetConnectionString("ShelterCare");
 builder.Services.AddNpgsqlConnection(dbConnectionString);
 builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
