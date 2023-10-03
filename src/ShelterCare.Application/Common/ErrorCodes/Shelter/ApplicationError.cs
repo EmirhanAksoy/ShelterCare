@@ -1,6 +1,4 @@
-﻿using ShelterCare.Application.Common.ErrorCodes.Base;
-
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 
 public class ValidationError
 {

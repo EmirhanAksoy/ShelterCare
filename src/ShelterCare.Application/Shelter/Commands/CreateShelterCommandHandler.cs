@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using ShelterCare.Core.Abstractions.Repository;
-using System;
 
 namespace ShelterCare.Application;
 
@@ -24,7 +22,7 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
         try
         {
             CreateShelterCommandValidation validationRules = new();
-            var validationResult = await validationRules.ValidateAsync(request);
+            var validationResult = await validationRules.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
