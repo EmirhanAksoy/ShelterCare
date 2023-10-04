@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShelterCare.API.Contracts.Requests;
-using ShelterCare.API.Contracts.Responses;
 using ShelterCare.API.Mapper.ShelterMapper;
 using ShelterCare.API.Routes;
 using ShelterCare.Application;
+using ShelterCare.Core.Domain;
 
 namespace ShelterCare.API.Controllers;
 
@@ -18,37 +18,37 @@ public class ShelterController : ControllerBase
     }
 
     [HttpGet(ShelterRoutes.GetAll)]
-    public async Task<ActionResult<Response<List<ShelterCreatedResponse>>>> GetAll()
+    public async Task<ActionResult<Response<List<Shelter>>>> GetAll()
     {
         var result = await _mediator.Send(new GetAllSheltersQuery()).ConfigureAwait(false);
         return Ok(result);
     }
 
     [HttpGet(ShelterRoutes.Get)]
-    public ActionResult<ShelterCreatedResponse> Get([FromRoute]string id)
+    public async Task<ActionResult<Shelter>> Get([FromRoute] Guid id)
     {
-        return Ok(new ShelterCreatedResponse());
+        var result = await _mediator.Send(new GetShelterByIdQuery(id)).ConfigureAwait(false);
+        return Ok(result);
     }
 
     [HttpPost(ShelterRoutes.Create)]
-    public async Task<ActionResult<Response<ShelterCreatedResponse>>> Create([FromBody] ShelterCreateRequest shelterCreateRequest)
+    public async Task<ActionResult<Response<Shelter>>> Create([FromBody] ShelterCreateRequest shelterCreateRequest)
     {
         ShelterCreateRequestMapper shelterCreateRequestMapper = new();
         var result = await _mediator.Send(shelterCreateRequestMapper.CreateRequestToCommand(shelterCreateRequest)).ConfigureAwait(false);
-        ShelterCreatedResponseMapper shelterCreatedResponseMapper = new();
-        var response = Response<ShelterCreatedResponse>.SuccessResult(shelterCreatedResponseMapper.ShelterToShelterCreatedResponse(result.Data));
-        return Ok(response);
+        return Ok(result);
     }
 
     [HttpPost(ShelterRoutes.Update)]
-    public ActionResult<ShelterCreatedResponse> Update([FromRoute]string id,[FromBody] ShelterUpdateRequest shelterUpdateRequest)
+    public ActionResult<Shelter> Update([FromRoute] string id, [FromBody] ShelterUpdateRequest shelterUpdateRequest)
     {
-        return Ok(new ShelterCreatedResponse());
+        return Ok(new Shelter());
     }
 
     [HttpDelete(ShelterRoutes.Delete)]
-    public ActionResult<bool> Delete([FromRoute] string id)
+    public async Task<ActionResult<Response<bool>>> Delete([FromRoute] Guid id)
     {
-        return Ok(true);
+        var result = await _mediator.Send(new DeleteShelterByIdCommand(id)).ConfigureAwait(false);
+        return Ok(result);
     }
 }

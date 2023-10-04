@@ -20,12 +20,11 @@ public class GetAllSheltersQueryHandler : IRequestHandler<GetAllSheltersQuery, R
     {
         try
         {
-            _logger.LogInformation("Shelters retrieved successfully");
             return Response<List<Shelter>>.SuccessResult(await _shelterRepository.GetAll());
         }
         catch (Exception exception)
         {
-            _logger.LogError(GetAllSheltersQueryFailed.EventId, exception, GetAllSheltersQueryFailed.Code);
+            _logger.LogError(GetAllSheltersQueryFailed.EventId, exception, "{Code} {Message}", GetAllSheltersQueryFailed.Code, GetAllSheltersQueryFailed.Message);
             return Response<List<Shelter>>.ErrorResult(GetAllSheltersQueryFailed.Code, GetAllSheltersQueryFailed.Message);
         }
     }

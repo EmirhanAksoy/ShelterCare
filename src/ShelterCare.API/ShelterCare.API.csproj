@@ -26,4 +26,8 @@
     <ProjectReference Include="..\ShelterCare.Application\ShelterCare.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\Responses\" />
+  </ItemGroup>
+
 </Project>

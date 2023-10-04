@@ -35,15 +35,15 @@ public class ShelterRepository : IShelterRepository
         return await _dbConnection.QuerySingleAsync<Shelter>(createQuery);
     }
 
-    public async Task<bool> Delete(string id)
+    public async Task<bool> Delete(Guid id)
     {
-        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.ShelterRepositoryQueries.Get.Replace($"@{nameof(Shelter.Id).ToLower()}", id));
-        return effectedRows > 0;
+        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.ShelterRepositoryQueries.Delete.Replace($"@{nameof(Shelter.Id).ToLower()}", id.ToString()));
+        return effectedRows > 0 ;
     }
 
-    public async Task<Shelter> Get(string id)
+    public async Task<Shelter> Get(Guid id)
     {
-        return await _dbConnection.QueryFirstAsync<Shelter>(SqlQueries.ShelterRepositoryQueries.Get.Replace($"@{nameof(Shelter.Id).ToLower()}", id));
+        return await _dbConnection.QueryFirstOrDefaultAsync<Shelter>(SqlQueries.ShelterRepositoryQueries.Get.Replace($"@{nameof(Shelter.Id).ToLower()}", id.ToString()));
     }
 
     public async Task<List<Shelter>> GetAll()

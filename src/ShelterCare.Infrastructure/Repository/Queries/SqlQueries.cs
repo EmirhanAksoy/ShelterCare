@@ -8,7 +8,7 @@ public static class SqlQueries
     {
         public const string GetAll = "SELECT * FROM Shelters";
         public const string Get = "SELECT * FROM Shelters WHERE id = '@id'";
-        public const string Delete = "DELETE Shelters WHERE id = '@id'";
+        public const string Delete = "DELETE FROM Shelters WHERE id = '@id'";
         public const string Update = $"""
             UPDATE Shelters
             SET
