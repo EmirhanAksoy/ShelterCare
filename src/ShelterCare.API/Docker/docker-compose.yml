@@ -1,0 +1,23 @@
+﻿version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    volumes:
+      - ./enable_uuid_ossp.sql:/docker-entrypoint-initdb.d/enable_uuid_ossp.sql
+      - ./tables.init.sql:/docker-entrypoint-initdb.d/tables.init.sql
+    environment:
+      POSTGRES_DB: ShelterCare
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"  # Map host port 5432 to container port 5432
+
+  seq:
+    image: datalust/seq:latest
+    container_name: seq-container
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - "5341:80"
