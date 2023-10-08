@@ -2,6 +2,7 @@
 
 public sealed class ShelterUpdateRequest
 {
+    public Guid Id { get; set; }
     public  string Name { get; set; } = string.Empty;
     public  string OwnerFullName { get; set; } = string.Empty;
     public  DateTime FoundationDate { get; set; } = DateTime.MinValue;

@@ -47,7 +47,5 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
             _logger.LogError(CreateShelterCommandFailed.EventId, exception, "{Code} {Message} {@shelter}", CreateShelterCommandFailed.Code, CreateShelterCommandFailed.Message, request);
             return Response<Shelter>.ErrorResult(CreateShelterCommandFailed.Code, CreateShelterCommandFailed.Message);
         }
-
-
     }
 }

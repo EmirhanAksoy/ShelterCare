@@ -39,10 +39,12 @@ public class ShelterController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost(ShelterRoutes.Update)]
-    public ActionResult<Shelter> Update([FromRoute] string id, [FromBody] ShelterUpdateRequest shelterUpdateRequest)
+    [HttpPut(ShelterRoutes.Update)]
+    public async Task<ActionResult<Shelter>> Update([FromBody] ShelterUpdateRequest shelterUpdateRequest)
     {
-        return Ok(new Shelter());
+        ShelterUpdateRequestMapper shelterUpdateRequestMapper = new();
+        var result = await _mediator.Send(shelterUpdateRequestMapper.UpdateRequestToCommand(shelterUpdateRequest)).ConfigureAwait(false);
+        return Ok(result);
     }
 
     [HttpDelete(ShelterRoutes.Delete)]

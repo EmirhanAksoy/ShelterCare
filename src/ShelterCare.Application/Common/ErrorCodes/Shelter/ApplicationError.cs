@@ -10,21 +10,21 @@ public class ValidationError
 public class GetAllSheltersQueryFailed 
 {
     public const int EventId = 1000;
-    public const string Code = "SHELTER-QUERY-ALL-FAIL";
+    public const string Code = "SHELTER-QUERY-ALL-FAILED";
     public const string Message = "Error occured while fetching shelters";
 }
 
 public class GetShelterByIdQueryFailed
 {
     public const int EventId = 1001;
-    public const string Code = "SHELTER-QUERY-BY-ID-FAIL";
+    public const string Code = "SHELTER-QUERY-BY-ID-FAILED";
     public const string Message = "Error occured while retrieving shelter by id";
 }
 
 public class CreateShelterCommandFailed
 {
     public const int EventId = 1002;
-    public const string Code = "SHELTER-COMMAND-CREATE-FAILED";
+    public const string Code = "SHELTER-CREATE-FAILED";
     public const string Message = "Error occured while creating shelter";
 }
 
@@ -40,6 +40,13 @@ public class ShelterNotFound
     public const int EventId = 1004;
     public const string Code = "SHELTER-NOT-FOUND";
     public const string Message = "Shelter is not found";
+}
+
+public class UpdateShelterCommandFailed
+{
+    public const int EventId = 1005;
+    public const string Code = "SHELTER-UPDATE-FAILED";
+    public const string Message = "Error occured while updating shelter";
 }
 
 

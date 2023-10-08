@@ -18,8 +18,11 @@ public static class SqlQueries
             {nameof(Shelter.FoundationDate)} = '@FoundationDate',
             {nameof(Shelter.UpdateDate)} = '@UpdateDate',
             {nameof(Shelter.UpdateUserId)} = '@UpdateUserId',
-            {nameof(Shelter.Website)} = '@Website'
+            {nameof(Shelter.Website)} = '@Website',
+            {nameof(Shelter.TotalAreaInSquareMeters)} = '@TotalAreaInSquareMeters'
             WHERE id = '@id'
+
+            RETURNING *
             """;
         public const string Create = $"""
             INSERT INTO Shelters
