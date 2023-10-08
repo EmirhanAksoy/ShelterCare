@@ -30,7 +30,7 @@ public class ShelterController : ControllerBase
     [ProducesResponseType(typeof(Shelter), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(Shelter), (int)HttpStatusCode.NotFound)]
     [HttpGet(ShelterRoutes.Get)]
-    public async Task<ActionResult<Shelter>> Get([FromRoute] Guid id)
+    public async Task<ActionResult<Response<Shelter>>> Get([FromRoute] Guid id)
     {
         var result = await _mediator.Send(new GetShelterByIdQuery(id)).ConfigureAwait(false);
         if (result.ErrorCode == ValidationError.Code)
@@ -62,7 +62,7 @@ public class ShelterController : ControllerBase
     [ProducesResponseType(typeof(Shelter), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(Shelter), (int)HttpStatusCode.NotFound)]
     [HttpPut(ShelterRoutes.Update)]
-    public async Task<ActionResult<Shelter>> Update([FromBody] ShelterUpdateRequest shelterUpdateRequest)
+    public async Task<ActionResult<Response<Shelter>>> Update([FromBody] ShelterUpdateRequest shelterUpdateRequest)
     {
         ShelterUpdateRequestMapper shelterUpdateRequestMapper = new();
         var result = await _mediator.Send(shelterUpdateRequestMapper.UpdateRequestToCommand(shelterUpdateRequest)).ConfigureAwait(false);

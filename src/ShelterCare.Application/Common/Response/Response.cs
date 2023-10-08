@@ -1,4 +1,6 @@
-﻿namespace ShelterCare.Application;
+﻿using System.Text.Json.Serialization;
+
+namespace ShelterCare.Application;
 
 public class Response<T>
 {
@@ -9,7 +11,8 @@ public class Response<T>
 
     private readonly List<string> errors = new();
 
-    private Response()
+    [JsonConstructor]
+    public Response()
     {
         Success = true;
     }
