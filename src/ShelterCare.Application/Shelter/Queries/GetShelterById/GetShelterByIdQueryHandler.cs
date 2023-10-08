@@ -28,6 +28,11 @@ public class GetShelterByIdQueryHandler : IRequestHandler<GetShelterByIdQuery, R
                 return Response<Shelter>.ErrorResult(ValidationError.Code, errorMessages);
             }
             Shelter shelter = await _shelterRepository.Get(request.Id);
+            if (shelter is null)
+            {
+                _logger.LogError(ShelterNotFound.EventId, "{Code} {Message}  {shelterId}", ShelterNotFound.Code, ShelterNotFound.Message, request.Id.ToString());
+                return Response<Shelter>.ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
+            }
             return Response<Shelter>.SuccessResult(shelter);
         }
         catch (Exception exception)
