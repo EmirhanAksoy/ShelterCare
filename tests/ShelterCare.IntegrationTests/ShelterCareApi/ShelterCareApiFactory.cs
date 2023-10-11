@@ -23,8 +23,6 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLi
            .Build();
     public async Task InitializeAsync()
     {
-        
-
         try
         {
             await _postgreSqlContainer.StartAsync();
@@ -47,13 +45,10 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLi
             );
             """);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-
             throw;
         }
-        
-        
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
