@@ -34,7 +34,7 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLi
                 Id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 Name VARCHAR(255) NOT NULL,
                 OwnerFullName VARCHAR(255),
-                FoundationDate DATE,
+                FoundationDate TIMESTAMP,
                 TotalAreaInSquareMeters DOUBLE PRECISION,
                 Address TEXT,
                 Website VARCHAR(255),

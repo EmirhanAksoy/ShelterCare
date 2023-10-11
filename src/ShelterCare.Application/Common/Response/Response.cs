@@ -4,10 +4,10 @@ namespace ShelterCare.Application;
 
 public class Response<T>
 {
-    public bool Success { get; private set; }
-    public T Data { get; private set; }
+    public bool Success { get; set; }
+    public T Data { get; set; }
     public IReadOnlyList<string> Errors => errors;
-    public string ErrorCode { get; private set; }
+    public string ErrorCode { get; set; }
 
     private readonly List<string> errors = new();
 
@@ -41,12 +41,12 @@ public class Response<T>
         return new Response<T>(data);
     }
 
-    public static Response<T> ErrorResult(string errorCode,string errorMessage)
+    public static Response<T> ErrorResult(string errorCode, string errorMessage)
     {
         return new Response<T>(errorMessage, errorCode);
     }
 
-    public static Response<T> ErrorResult(string errorCode,List<string> errorMessages)
+    public static Response<T> ErrorResult(string errorCode, List<string> errorMessages)
     {
         return new Response<T>(errorMessages, errorCode);
     }

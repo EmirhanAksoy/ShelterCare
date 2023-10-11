@@ -35,6 +35,7 @@ public static class SqlQueries
             {nameof(Shelter.CreateDate)},
             {nameof(Shelter.CreateUserId)},
             {nameof(Shelter.Website)}
+            {nameof(Shelter.TotalAreaInSquareMeters)}
             )
             VALUES
             (
@@ -45,7 +46,8 @@ public static class SqlQueries
              '@FoundationDate',
              '@CreateDate',
              '@CreateUserId',
-             '@Website'
+             '@Website',
+             '@TotalAreaInSquareMeters'
             )
 
             RETURNING *
