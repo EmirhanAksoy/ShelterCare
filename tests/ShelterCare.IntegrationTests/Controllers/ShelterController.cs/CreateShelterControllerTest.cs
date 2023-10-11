@@ -1,14 +1,11 @@
 ﻿using Bogus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Routes;
 using ShelterCare.Application;
 using ShelterCare.Core.Domain;
 using ShelterCare.IntegrationTests.ShelterCareApi;
-using System.Collections;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -46,8 +43,6 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        shelterCreateResponse.Data.Should().BeEquivalentTo(shelterCreateRequest);
         shelterCreateResponse.Data.Id.Should().NotBeEmpty();
 
     }

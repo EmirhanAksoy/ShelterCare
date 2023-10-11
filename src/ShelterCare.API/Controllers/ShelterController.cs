@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Mapper.ShelterMapper;
 using ShelterCare.API.Routes;

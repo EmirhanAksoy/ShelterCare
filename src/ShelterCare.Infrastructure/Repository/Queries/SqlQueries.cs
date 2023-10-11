@@ -34,7 +34,7 @@ public static class SqlQueries
             {nameof(Shelter.FoundationDate)},
             {nameof(Shelter.CreateDate)},
             {nameof(Shelter.CreateUserId)},
-            {nameof(Shelter.Website)}
+            {nameof(Shelter.Website)},
             {nameof(Shelter.TotalAreaInSquareMeters)}
             )
             VALUES
