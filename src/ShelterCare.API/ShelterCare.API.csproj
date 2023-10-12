@@ -23,11 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShelterCare.Application\ShelterCare.Application.csproj" />
+    <Folder Include="Contracts\Responses\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Responses\" />
+    <ProjectReference Include="..\ShelterCare.Application\ShelterCare.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,20 +25,20 @@ public class GetShelterByIdQueryHandler : IRequestHandler<GetShelterByIdQuery, R
             {
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
                 _logger.LogError(ValidationError.EventId, "{Code} {Message} : {@errorMessages} {shelterId}", ValidationError.Code, ValidationError.Message, errorMessages, request.Id.ToString());
-                return Response<Shelter>.ErrorResult(ValidationError.Code, errorMessages);
+                return new Response<Shelter>().ErrorResult(ValidationError.Code, errorMessages);
             }
             Shelter shelter = await _shelterRepository.Get(request.Id);
             if (shelter is null)
             {
                 _logger.LogError(ShelterNotFound.EventId, "{Code} {Message}  {shelterId}", ShelterNotFound.Code, ShelterNotFound.Message, request.Id.ToString());
-                return Response<Shelter>.ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
+                return new Response<Shelter>().ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
             }
-            return Response<Shelter>.SuccessResult(shelter);
+            return new Response<Shelter>().SuccessResult(shelter);
         }
         catch (Exception exception)
         {
             _logger.LogError(GetShelterByIdQueryFailed.EventId, exception, "{Code} {Message} {shelterId}", GetShelterByIdQueryFailed.Code, GetShelterByIdQueryFailed.Message, request.Id.ToString());
-            return Response<Shelter>.ErrorResult(GetShelterByIdQueryFailed.Code, GetShelterByIdQueryFailed.Message);
+            return new Response<Shelter>().ErrorResult(GetShelterByIdQueryFailed.Code, GetShelterByIdQueryFailed.Message);
         }
     }
 }

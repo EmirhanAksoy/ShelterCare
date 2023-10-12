@@ -25,25 +25,25 @@ public class DeleteShelterByIdCommandHandler : IRequestHandler<DeleteShelterById
             {
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
                 _logger.LogError(ValidationError.EventId, "{Code} {Message} : {@errorMessages} {shelterId}", ValidationError.Code, ValidationError.Message, errorMessages, request.Id.ToString());
-                return Response<bool>.ErrorResult(ValidationError.Code, errorMessages);
+                return new Response<bool>().ErrorResult(ValidationError.Code, errorMessages);
             }
             Shelter shelter = await _shelterRepository.Get(request.Id);
             if (shelter is null)
             {
                 _logger.LogError(ShelterNotFound.EventId, "{Code} {Message}  {shelterId}", ShelterNotFound.Code, ShelterNotFound.Message, request.Id.ToString());
-                return Response<bool>.ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
+                return new Response<bool>().ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
             }
             bool isDeleted = await _shelterRepository.Delete(request.Id);
             if (isDeleted)
             {
                 _logger.LogInformation("Shelter deleted successfully {shelterId}",request.Id.ToString());
             }
-            return Response<bool>.SuccessResult(isDeleted);
+            return new Response<bool>().SuccessResult(isDeleted);
         }
         catch (Exception exception)
         {
             _logger.LogError(DeletehelterByIdCommandFailed.EventId, exception, "{Code} {Message} {shelterId}", DeletehelterByIdCommandFailed.Code, DeletehelterByIdCommandFailed.Message, request.Id.ToString());
-            return Response<bool>.ErrorResult(DeletehelterByIdCommandFailed.Code, DeletehelterByIdCommandFailed.Message);
+            return new Response<bool>().ErrorResult(DeletehelterByIdCommandFailed.Code, DeletehelterByIdCommandFailed.Message);
         }
     }
 }

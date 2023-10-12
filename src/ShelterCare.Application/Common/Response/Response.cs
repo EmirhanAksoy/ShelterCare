@@ -4,50 +4,42 @@ namespace ShelterCare.Application;
 
 public class Response<T>
 {
-    public bool Success { get; set; }
-    public T Data { get; set; }
-    public IReadOnlyList<string> Errors => errors;
-    public string ErrorCode { get; set; }
-
-    private readonly List<string> errors = new();
+    public bool Success { get; set; } 
+    public T Data { get; set; } 
+    public string ErrorCode { get; set; } 
+    public List<string> Errors { get; set; }
 
     [JsonConstructor]
     public Response()
     {
+        Errors ??= new ();
+    }
+    public Response<T> SuccessResult(T data)
+    {
         Success = true;
-    }
-
-    private Response(T data) : this()
-    {
         Data = data;
+        ErrorCode = string.Empty;
+        Errors = new ();
+        return this;
     }
 
-    private Response(string error, string errorCode) : this()
+    public Response<T> ErrorResult(string errorCode, string errorMessage)
     {
         Success = false;
-        errors.Add(error);
+        Errors = new()
+        {
+            errorMessage
+        };
         ErrorCode = errorCode;
+        return this;
     }
 
-    private Response(List<string> errors, string errorCode) : this()
+    public  Response<T> ErrorResult(string errorCode, List<string> errorMessages)
     {
         Success = false;
-        this.errors.AddRange(errors);
+        Errors = new();
+        Errors.AddRange(errorMessages);
         ErrorCode = errorCode;
-    }
-
-    public static Response<T> SuccessResult(T data)
-    {
-        return new Response<T>(data);
-    }
-
-    public static Response<T> ErrorResult(string errorCode, string errorMessage)
-    {
-        return new Response<T>(errorMessage, errorCode);
-    }
-
-    public static Response<T> ErrorResult(string errorCode, List<string> errorMessages)
-    {
-        return new Response<T>(errorMessages, errorCode);
+        return this;
     }
 }

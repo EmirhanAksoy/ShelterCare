@@ -1,6 +1,8 @@
 ﻿using Bogus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Routes;
 using ShelterCare.Application;
@@ -12,30 +14,30 @@ using Xunit.Abstractions;
 
 namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
 
-public class CreateShelterControllerTest : IAsyncLifetime
+public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
 {
-    private readonly Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
+   
+    private HttpClient _httpClient;
+    private readonly ITestOutputHelper _testOutputHelper;
+    private readonly ShelterCareApiFactory _shelterCareApiFactory;
+    public CreateShelterControllerTest(ITestOutputHelper testOutputHelper, ShelterCareApiFactory shelterCareApiFactory)
+    {
+        _testOutputHelper = testOutputHelper;
+        _shelterCareApiFactory = shelterCareApiFactory.SetOutPut(testOutputHelper);
+        _httpClient = _shelterCareApiFactory.CreateClient();
+    }
+
+    [Fact(DisplayName = "Create Shelter Success")]
+    public async Task Create_Success_Reponse()
+    {
+        // Arrange
+        Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
         .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
         .RuleFor(x => x.Website, faker => faker.Person.Email)
         .RuleFor(x => x.TotalAreaInSquareMeters, faker => 10000)
         .RuleFor(x => x.FoundationDate, faker => faker.Date.Recent())
         .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
         .RuleFor(x => x.Name, faker => faker.Company.CompanyName());
-
-    
-    private HttpClient? _httpClient;
-    private ShelterCareApiFactory? _shelterCareApiFactory;
-
-    private readonly ITestOutputHelper _testOutputHelper;
-    public CreateShelterControllerTest(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
-    [Fact]
-    public async Task Create_Success_Reponse()
-    {
-        // Arrange
         ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
 
         // Act
@@ -45,19 +47,33 @@ public class CreateShelterControllerTest : IAsyncLifetime
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        shelterCreateResponse.Data.Should().NotBeNull();
         shelterCreateResponse.Data.Id.Should().NotBeEmpty();
 
     }
 
-    public async Task DisposeAsync()
+    [Fact(DisplayName ="Create Shelter With Invalid Name")]
+    public async Task Create_Shelter_Invalid_Name()
     {
-        await _shelterCareApiFactory.DisposeAsync();
-    }
+        // Arrange
+        Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
+        .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
+        .RuleFor(x => x.Website, faker => faker.Person.Email)
+        .RuleFor(x => x.TotalAreaInSquareMeters, faker => 10000)
+        .RuleFor(x => x.FoundationDate, faker => faker.Date.Recent())
+        .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
+        .RuleFor(x => x.Name, faker => null);
+        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
+        shelterCreateRequest.Name = null;
 
-    public async Task InitializeAsync()
-    {
-        _shelterCareApiFactory = new(_testOutputHelper);
-        await _shelterCareApiFactory.InitializeAsync();
-        _httpClient = _shelterCareApiFactory.WebApplicationFactory.CreateClient();
+        // Act
+        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
+        ValidationProblemDetails shelterCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+
+        //Assert
+        httpResponseMessage.Should().NotBeNull();
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        shelterCreateResponse.Status.Should().Be((int)StatusCodes.Status400BadRequest);
     }
+    
 }

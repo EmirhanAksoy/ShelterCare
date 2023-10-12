@@ -7,11 +7,8 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// For test loggings
-builder.WebHost.ConfigureLogging(configureLogging =>
-{
-    configureLogging.AddSerilog();
-});
+// For test loggings using IWebHost
+builder.WebHost.ConfigureLogging(logging => logging.AddWebHostSerilog(builder.Configuration));
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

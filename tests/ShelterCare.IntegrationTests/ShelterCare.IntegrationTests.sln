@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelterCare.IntegrationTests", "ShelterCare.IntegrationTests.csproj", "{3ACC8231-BDF6-4338-816C-67C11F6F8B32}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelterCare.API", "..\..\src\ShelterCare.API\ShelterCare.API.csproj", "{6D421BB7-6444-45E5-AB3E-E8624A2CE891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShelterCare.API", "..\..\src\ShelterCare.API\ShelterCare.API.csproj", "{99B76F1B-49DE-45C5-9CF0-8D5F326C91F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{3ACC8231-BDF6-4338-816C-67C11F6F8B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ACC8231-BDF6-4338-816C-67C11F6F8B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ACC8231-BDF6-4338-816C-67C11F6F8B32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D421BB7-6444-45E5-AB3E-E8624A2CE891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99B76F1B-49DE-45C5-9CF0-8D5F326C91F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99B76F1B-49DE-45C5-9CF0-8D5F326C91F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99B76F1B-49DE-45C5-9CF0-8D5F326C91F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99B76F1B-49DE-45C5-9CF0-8D5F326C91F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

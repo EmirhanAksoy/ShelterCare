@@ -17,24 +17,16 @@ using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace ShelterCare.IntegrationTests.ShelterCareApi;
-public class ShelterCareApiFactory : IAsyncLifetime
+public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLifetime
 {
+    private ITestOutputHelper _testOutputHelper;
 
-    private readonly ITestOutputHelper _testOutputHelper;
-
-    public ShelterCareApiFactory(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-    
     private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
            .WithDatabase("ShelterApiTestDb")
            .WithPassword("admin")
            .WithUsername("sa")
-           .WithPortBinding(5432, 5432)
            .Build();
-
-    public WebApplicationFactory<IApiMarker> WebApplicationFactory { get; private set; }
+    
     public async Task InitializeAsync()
     {
         try
@@ -58,33 +50,39 @@ public class ShelterCareApiFactory : IAsyncLifetime
                 UpdateUserId UUID
             );
             """);
-
-            WebApplicationFactory = new WebApplicationFactory<IApiMarker>().WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureLogging(config =>
-                {
-                    config.ClearProviders();
-
-                    config.SetMinimumLevel(LogLevel.Debug);
-
-                    config.Services.AddSingleton<ILoggerProvider>(new XUnitLoggerProvider(_testOutputHelper));
-                });
-                builder.ConfigureTestServices(services =>
-                {
-                    // Clear default IDbConnection services
-                    services.RemoveAll(typeof(IDbConnection));
-
-                    services.AddSingleton<IDbConnection>(instance =>
-                    {
-                        return new NpgsqlConnection(_postgreSqlContainer.GetConnectionString());
-                    });
-                });
-            });
         }
         catch (Exception)
         {
             throw;
         }
+    }
+
+    public ShelterCareApiFactory SetOutPut(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+        return this;
+    }
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.ConfigureLogging(config =>
+        {
+            config.ClearProviders();
+
+            config.SetMinimumLevel(LogLevel.Debug);
+
+            config.Services.AddSingleton<ILoggerProvider>(new XUnitLoggerProvider(_testOutputHelper));
+        });
+
+        builder.ConfigureTestServices(services =>
+        {
+            // Clear default IDbConnection services
+            services.RemoveAll(typeof(IDbConnection));
+
+            services.AddSingleton<IDbConnection>(instance =>
+            {
+                return new NpgsqlConnection(_postgreSqlContainer.GetConnectionString());
+            });
+        });
     }
 
     public async Task DisposeAsync()

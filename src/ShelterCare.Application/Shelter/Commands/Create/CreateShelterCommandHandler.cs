@@ -27,7 +27,7 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
             {
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
                 _logger.LogError(ValidationError.EventId, "{Code} {Message} : {@errorMessages}", ValidationError.Code, ValidationError.Message, errorMessages);
-                return Response<Shelter>.ErrorResult(ValidationError.Code, errorMessages);
+                return new Response<Shelter>().ErrorResult(ValidationError.Code, errorMessages);
             }
             Shelter shelter = new()
             {
@@ -40,12 +40,12 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
             };
             Shelter createdShelter = await _shelterRepository.Create(shelter);
             _logger.LogInformation("Shelter created successfully {@shelter}", createdShelter);
-            return Response<Shelter>.SuccessResult(createdShelter);
+            return new Response<Shelter>().SuccessResult(createdShelter);
         }
         catch (Exception exception)
         {
             _logger.LogError(CreateShelterCommandFailed.EventId, exception, "{Code} {Message} {@shelter}", CreateShelterCommandFailed.Code, CreateShelterCommandFailed.Message, request);
-            return Response<Shelter>.ErrorResult(CreateShelterCommandFailed.Code, CreateShelterCommandFailed.Message);
+            return new Response<Shelter>().ErrorResult(CreateShelterCommandFailed.Code, CreateShelterCommandFailed.Message);
         }
     }
 }
