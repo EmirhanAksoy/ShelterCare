@@ -3,10 +3,15 @@ using ShelterCare.Infrastructure.Repository;
 using ShelterCare.Infrastructure.Repository.Extensions;
 using ShelterCare.Application.Extensions;
 using ShelterCare.Infrastructure.Logger.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.AddSerilog(builder.Configuration);
+// For test loggings
+builder.WebHost.ConfigureLogging(configureLogging =>
+{
+    configureLogging.AddSerilog();
+});
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -8,10 +8,11 @@ using ShelterCare.Core.Domain;
 using ShelterCare.IntegrationTests.ShelterCareApi;
 using System.Net;
 using System.Net.Http.Json;
+using Xunit.Abstractions;
 
 namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
 
-public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
+public class CreateShelterControllerTest : IAsyncLifetime
 {
     private readonly Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
         .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
@@ -21,13 +22,14 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
         .RuleFor(x => x.Name, faker => faker.Company.CompanyName());
 
+    
+    private HttpClient? _httpClient;
+    private ShelterCareApiFactory? _shelterCareApiFactory;
 
-    private HttpClient _httpClient;
-    private ShelterCareApiFactory _ShelterCareApiFactory;
-    public CreateShelterControllerTest(ShelterCareApiFactory shelterCareApiFactory)
+    private readonly ITestOutputHelper _testOutputHelper;
+    public CreateShelterControllerTest(ITestOutputHelper testOutputHelper)
     {
-        _ShelterCareApiFactory = shelterCareApiFactory;
-        _httpClient = shelterCareApiFactory.CreateClient();
+        _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
@@ -45,5 +47,17 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         shelterCreateResponse.Data.Id.Should().NotBeEmpty();
 
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _shelterCareApiFactory.DisposeAsync();
+    }
+
+    public async Task InitializeAsync()
+    {
+        _shelterCareApiFactory = new(_testOutputHelper);
+        await _shelterCareApiFactory.InitializeAsync();
+        _httpClient = _shelterCareApiFactory.WebApplicationFactory.CreateClient();
     }
 }
