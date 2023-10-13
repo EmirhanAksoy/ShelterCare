@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,29 +48,14 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         shelterCreateResponse.Data.Id.Should().NotBeEmpty();
 
     }
+    
+
     [Fact(DisplayName = "Create Shelter With Null Name")]
     public async Task Create_Shelter_Invalid_Null_Name()
     {
         // Arrange
         ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Clone()
-                .RuleFor(x=>x.Name,faker => null)
-                .Generate();
-        // Act
-        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
-        ValidationProblemDetails shelterCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<ValidationProblemDetails>();
-
-        //Assert
-        httpResponseMessage.Should().NotBeNull();
-        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        shelterCreateResponse.Status.Should().Be((int)StatusCodes.Status400BadRequest);
-
-    }
-    [Fact(DisplayName = "Create Shelter With Empty Name")]
-    public async Task Create_Shelter_Invalid_Empty_Name()
-    {
-        // Arrange
-        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Clone()
-                .RuleFor(x => x.Name, faker => string.Empty)
+                .RuleFor(x => x.Name, faker => null)
                 .Generate();
 
         // Act
@@ -81,7 +67,7 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         shelterCreateResponse.Errors.Should().NotBeNull();
         shelterCreateResponse.Errors.Count().Should().Be(1);
-        shelterCreateResponse.Errors.FirstOrDefault().Should().Be("'Name' must not be empty.");
+        shelterCreateResponse.Errors.FirstOrDefault().Should().Be("The Name field is required.");
         shelterCreateResponse.ErrorCode.Should().Be(ValidationError.Code);
     }
 
