@@ -21,7 +21,7 @@ public class ShelterController : ControllerBase
     [HttpGet(ShelterRoutes.GetAll)]
     public async Task<ActionResult<Response<List<Shelter>>>> GetAll()
     {
-        var result = await _mediator.Send(new GetAllSheltersQuery()).ConfigureAwait(false);
+        var result = await _mediator.Send(new GetAllSheltersQuery());
         return Ok(result);
     }
 
@@ -31,7 +31,7 @@ public class ShelterController : ControllerBase
     [HttpGet(ShelterRoutes.Get)]
     public async Task<ActionResult<Response<Shelter>>> Get([FromRoute] Guid id)
     {
-        var result = await _mediator.Send(new GetShelterByIdQuery(id)).ConfigureAwait(false);
+        var result = await _mediator.Send(new GetShelterByIdQuery(id));
         if (result.ErrorCode == ValidationError.Code)
         {
             return BadRequest(result);
@@ -49,7 +49,7 @@ public class ShelterController : ControllerBase
     public async Task<ActionResult<Response<Shelter>>> Create([FromBody] ShelterCreateRequest shelterCreateRequest)
     {
         ShelterCreateRequestMapper shelterCreateRequestMapper = new();
-        var result = await _mediator.Send(shelterCreateRequestMapper.CreateRequestToCommand(shelterCreateRequest)).ConfigureAwait(false);
+        var result = await _mediator.Send(shelterCreateRequestMapper.CreateRequestToCommand(shelterCreateRequest));
         if (result.ErrorCode == ValidationError.Code)
         {
             return BadRequest(result);
@@ -64,7 +64,7 @@ public class ShelterController : ControllerBase
     public async Task<ActionResult<Response<Shelter>>> Update([FromBody] ShelterUpdateRequest shelterUpdateRequest)
     {
         ShelterUpdateRequestMapper shelterUpdateRequestMapper = new();
-        var result = await _mediator.Send(shelterUpdateRequestMapper.UpdateRequestToCommand(shelterUpdateRequest)).ConfigureAwait(false);
+        var result = await _mediator.Send(shelterUpdateRequestMapper.UpdateRequestToCommand(shelterUpdateRequest));
         if (result.ErrorCode == ValidationError.Code)
         {
             return BadRequest(result);
@@ -82,7 +82,7 @@ public class ShelterController : ControllerBase
     [HttpDelete(ShelterRoutes.Delete)]
     public async Task<ActionResult<Response<bool>>> Delete([FromRoute] Guid id)
     {
-        var result = await _mediator.Send(new DeleteShelterByIdCommand(id)).ConfigureAwait(false);
+        var result = await _mediator.Send(new DeleteShelterByIdCommand(id));
         if (result.ErrorCode == ValidationError.Code)
         {
             return BadRequest(result);

@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>latest-All</AnalysisLevel>
+		<NoWarn>CA1014;CA2007;CA1812;CA1031;IDE0022;IDE0053</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

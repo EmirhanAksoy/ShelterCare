@@ -3,6 +3,7 @@ using ShelterCare.Infrastructure.Repository;
 using ShelterCare.Infrastructure.Repository.Extensions;
 using ShelterCare.Application.Extensions;
 using ShelterCare.Infrastructure.Logger.Extensions;
+using ShelterCare.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,5 +31,7 @@ app.MapHealthChecks("/healthz");
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.Run();

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 
 public class Response<T>
 {
