@@ -62,6 +62,7 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
         _testOutputHelper = testOutputHelper;
         return this;
     }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureLogging(config =>

@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /buildoutput.txt
 /src/Mobile/Trex.Mobile.App/db.cblite2
+/src/ShelterCare.Application/Common/Response/Response.cs

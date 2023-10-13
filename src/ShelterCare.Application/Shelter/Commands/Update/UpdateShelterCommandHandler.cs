@@ -25,14 +25,14 @@ public class UpdateShelterCommandHandler : IRequestHandler<UpdateShelterCommand,
             {
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
                 _logger.LogError(ValidationError.EventId, "{Code} {Message} : {@errorMessages}", ValidationError.Code, ValidationError.Message, errorMessages);
-                return new Response<Shelter>().ErrorResult(ValidationError.Code, errorMessages);
+                return Response<Shelter>.ErrorResult(ValidationError.Code, errorMessages);
             }
 
             Shelter existingShelter = await _shelterRepository.Get(request.Id);
             if (existingShelter is null)
             {
                 _logger.LogError(ShelterNotFound.EventId, "{Code} {Message}  {shelterId}", ShelterNotFound.Code, ShelterNotFound.Message, request.Id.ToString());
-                return new Response<Shelter>().ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
+                return Response<Shelter>.ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
             }
 
             Shelter shelter = new()
@@ -47,12 +47,12 @@ public class UpdateShelterCommandHandler : IRequestHandler<UpdateShelterCommand,
             };
             Shelter updatedShelter = await _shelterRepository.Update(shelter);
             _logger.LogInformation("Shelter updated successfully {@shelter}", updatedShelter);
-            return new Response<Shelter>().SuccessResult(updatedShelter);
+            return Response<Shelter>.SuccessResult(updatedShelter);
         }
         catch (Exception exception)
         {
             _logger.LogError(UpdateShelterCommandFailed.EventId, exception, "{Code} {Message} {@shelter}", UpdateShelterCommandFailed.Code, UpdateShelterCommandFailed.Message, request);
-            return new Response<Shelter>().ErrorResult(UpdateShelterCommandFailed.Code, UpdateShelterCommandFailed.Message);
+            return Response<Shelter>.ErrorResult(UpdateShelterCommandFailed.Code, UpdateShelterCommandFailed.Message);
         }
     }
 }

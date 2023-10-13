@@ -4,42 +4,49 @@ namespace ShelterCare.Application;
 
 public class Response<T>
 {
-    public bool Success { get; set; } 
-    public T Data { get; set; } 
-    public string ErrorCode { get; set; } 
-    public List<string> Errors { get; set; }
+    public bool Success { get; set; }
+    public T Data { get; set; }
+    public IReadOnlyList<string> Errors => errors;
+    public string ErrorCode { get; set; }
 
-    [JsonConstructor]
+    private readonly List<string> errors = new();
+
     public Response()
     {
-        Errors ??= new ();
-    }
-    public Response<T> SuccessResult(T data)
-    {
         Success = true;
+    }
+
+    private Response(T data) : this()
+    {
         Data = data;
-        ErrorCode = string.Empty;
-        Errors = new ();
-        return this;
     }
 
-    public Response<T> ErrorResult(string errorCode, string errorMessage)
+    private Response(string error, string errorCode) : this()
     {
         Success = false;
-        Errors = new()
-        {
-            errorMessage
-        };
+        errors.Add(error);
         ErrorCode = errorCode;
-        return this;
     }
 
-    public  Response<T> ErrorResult(string errorCode, List<string> errorMessages)
+    private Response(List<string> errors, string errorCode) : this()
     {
         Success = false;
-        Errors = new();
-        Errors.AddRange(errorMessages);
+        this.errors.AddRange(errors);
         ErrorCode = errorCode;
-        return this;
+    }
+
+    public static Response<T> SuccessResult(T data)
+    {
+        return new Response<T>(data);
+    }
+
+    public static Response<T> ErrorResult(string errorCode, string errorMessage)
+    {
+        return new Response<T>(errorMessage, errorCode);
+    }
+
+    public static Response<T> ErrorResult(string errorCode, List<string> errorMessages)
+    {
+        return new Response<T>(errorMessages, errorCode);
     }
 }
