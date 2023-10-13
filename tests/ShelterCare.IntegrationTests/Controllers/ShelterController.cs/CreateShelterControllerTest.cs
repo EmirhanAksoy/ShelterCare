@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using ShelterCare.API.Contracts.Requests;
 using ShelterCare.API.Routes;
 using ShelterCare.Application;
@@ -18,28 +17,25 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
 {
 
     private HttpClient _httpClient;
-    private readonly ITestOutputHelper _testOutputHelper;
     private readonly ShelterCareApiFactory _shelterCareApiFactory;
-    public CreateShelterControllerTest(ITestOutputHelper testOutputHelper, ShelterCareApiFactory shelterCareApiFactory)
-    {
-        _testOutputHelper = testOutputHelper;
-        _shelterCareApiFactory = shelterCareApiFactory.SetOutPut(testOutputHelper);
-        _httpClient = _shelterCareApiFactory.CreateClient();
-    }
-
-    [Fact(DisplayName = "Create Shelter Success")]
-    public async Task Create_Success_Reponse()
-    {
-        // Arrange
-        Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
+    private Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
         .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
         .RuleFor(x => x.Website, faker => faker.Person.Email)
         .RuleFor(x => x.TotalAreaInSquareMeters, faker => 10000)
         .RuleFor(x => x.FoundationDate, faker => faker.Date.Recent())
         .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
         .RuleFor(x => x.Name, faker => faker.Company.CompanyName());
-        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
+    public CreateShelterControllerTest(ITestOutputHelper testOutputHelper, ShelterCareApiFactory shelterCareApiFactory)
+    {
+        _shelterCareApiFactory = shelterCareApiFactory.SetOutPut(testOutputHelper);
+        _httpClient = _shelterCareApiFactory.CreateClient();
+    }
 
+    [Fact(DisplayName = "Create Shelter With Valid Input")]
+    public async Task Create_Shelter_With_Valid_Input()
+    {
+        // Arrange
+        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
         // Act
         HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
         Response<Shelter> shelterCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
@@ -51,20 +47,13 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         shelterCreateResponse.Data.Id.Should().NotBeEmpty();
 
     }
-
     [Fact(DisplayName = "Create Shelter With Null Name")]
     public async Task Create_Shelter_Invalid_Null_Name()
     {
         // Arrange
-        Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
-        .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
-        .RuleFor(x => x.Website, faker => faker.Person.Email)
-        .RuleFor(x => x.TotalAreaInSquareMeters, faker => 10000)
-        .RuleFor(x => x.FoundationDate, faker => faker.Date.Recent())
-        .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
-        .RuleFor(x => x.Name, faker => null);
-        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
-
+        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Clone()
+                .RuleFor(x=>x.Name,faker => null)
+                .Generate();
         // Act
         HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
         ValidationProblemDetails shelterCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<ValidationProblemDetails>();
@@ -79,14 +68,9 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
     public async Task Create_Shelter_Invalid_Empty_Name()
     {
         // Arrange
-        Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
-        .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
-        .RuleFor(x => x.Website, faker => faker.Person.Email)
-        .RuleFor(x => x.TotalAreaInSquareMeters, faker => 10000)
-        .RuleFor(x => x.FoundationDate, faker => faker.Date.Recent())
-        .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
-        .RuleFor(x => x.Name, faker => string.Empty);
-        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
+        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Clone()
+                .RuleFor(x => x.Name, faker => string.Empty)
+                .Generate();
 
         // Act
         HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);

@@ -10,11 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using ShelterCare.API.Marker;
-using System;
 using System.Data;
 using Testcontainers.PostgreSql;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace ShelterCare.IntegrationTests.ShelterCareApi;
 public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLifetime
