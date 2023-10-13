@@ -95,6 +95,9 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        shelterCreateResponse.Errors.Should().NotBeNull();
+        shelterCreateResponse.Errors.Count().Should().Be(1);
+        shelterCreateResponse.Errors.FirstOrDefault().Should().Be("'Name' must not be empty.");
         shelterCreateResponse.ErrorCode.Should().Be(ValidationError.Code);
     }
 

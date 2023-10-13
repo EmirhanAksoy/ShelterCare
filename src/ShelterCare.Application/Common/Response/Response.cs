@@ -6,10 +6,8 @@ public class Response<T>
 {
     public bool Success { get; set; }
     public T Data { get; set; }
-    public IReadOnlyList<string> Errors => errors;
+    public List<string> Errors { get; set; } = new();
     public string ErrorCode { get; set; }
-
-    private readonly List<string> errors = new();
 
     public Response()
     {
@@ -24,14 +22,14 @@ public class Response<T>
     private Response(string error, string errorCode) : this()
     {
         Success = false;
-        errors.Add(error);
+        Errors.Add(error);
         ErrorCode = errorCode;
     }
 
     private Response(List<string> errors, string errorCode) : this()
     {
         Success = false;
-        this.errors.AddRange(errors);
+        Errors.AddRange(errors);
         ErrorCode = errorCode;
     }
 
