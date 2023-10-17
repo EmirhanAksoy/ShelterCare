@@ -72,9 +72,9 @@ public class GetByIdShelterControllerTest : IClassFixture<ShelterCareApiFactory>
     public async Task Get_Shelter_By_Invalid_Id()
     {
         // Arrange
-        string notExistingId = "xxxxx";
+        string invalidId = "xxxxx";
         // Act
-        HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(ShelterRoutes.Get.Replace("{id}", notExistingId));
+        HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync(ShelterRoutes.Get.Replace("{id}", invalidId));
         Response<Shelter> shelterResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
         //Assert
         httpResponseMessage.Should().NotBeNull();
