@@ -84,7 +84,7 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
         });
     }
 
-    public async Task DisposeAsync()
+    async Task IAsyncLifetime.DisposeAsync()
     {
         await _postgreSqlContainer.DisposeAsync();
     }

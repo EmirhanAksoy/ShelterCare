@@ -7,7 +7,7 @@ namespace ShelterCare.API.Middlewares;
 public class ValidationExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly JsonSerializerOptions serializerOptions = new JsonSerializerOptions()
+    private readonly JsonSerializerOptions serializerOptions = new()
     {
         PropertyNameCaseInsensitive = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -30,7 +30,6 @@ public class ValidationExceptionMiddleware
         if (context.Response.StatusCode == StatusCodes.Status400BadRequest &&
             context.Response.ContentType?.Contains("application/problem+json", StringComparison.OrdinalIgnoreCase) == true)
         {
-
             responseStream.Seek(0, SeekOrigin.Begin);
             using var stream = new StreamReader(responseStream);
             var responseText = await stream.ReadToEndAsync();
