@@ -63,17 +63,15 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureLogging(config =>
+        builder.ConfigureServices(services =>
         {
-            config.ClearProviders();
-
-            config.SetMinimumLevel(LogLevel.Debug);
-
-            config.Services.AddSingleton<ILoggerProvider>(new XUnitLoggerProvider(_testOutputHelper));
+            services.RemoveAll<ILoggerFactory>();
         });
 
         builder.ConfigureTestServices(services =>
         {
+            services.RemoveAll<ILoggerFactory>();
+
             // Clear default IDbConnection services
             services.RemoveAll(typeof(IDbConnection));
 
@@ -81,6 +79,15 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
             {
                 return new NpgsqlConnection(_postgreSqlContainer.GetConnectionString());
             });
+        });
+
+        builder.ConfigureLogging(config =>
+        {
+            config.ClearProviders();
+
+            config.SetMinimumLevel(LogLevel.Debug);
+
+            config.Services.AddSingleton<ILoggerProvider>(new XUnitLoggerProvider(_testOutputHelper));
         });
     }
 
