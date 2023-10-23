@@ -69,4 +69,32 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         shelterCreateResponse.ErrorCode.Should().Be(ValidationError.Code);
     }
 
+    [Fact(DisplayName = "Create Shelter With Existing Name")]
+    public async Task Create_Shelter_With_Existing_Name()
+    {
+        const string shelterName = "Happy Animals";
+        // Arrange
+        ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Clone()
+                .RuleFor(x => x.Name, faker => shelterName)
+                .Generate();
+
+        ShelterCreateRequest shelterCreateRequestWithSameName = _shelterGenerator.Clone()
+               .RuleFor(x => x.Name, faker => shelterName)
+               .Generate();
+
+        await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
+
+        // Act
+        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequestWithSameName);
+        Response<Shelter> shelterCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
+
+        //Assert
+        httpResponseMessage.Should().NotBeNull();
+        httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        shelterCreateResponse.Errors.Should().NotBeNull();
+        shelterCreateResponse.Errors.Count.Should().Be(1);
+        shelterCreateResponse.Errors.FirstOrDefault().Should().Be(ShelterNameAlreadyExists.Message);
+        shelterCreateResponse.ErrorCode.Should().Be(ValidationError.Code);
+    }
+
 }

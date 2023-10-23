@@ -81,6 +81,6 @@ public class GetByIdShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         shelterResponse.ErrorCode.Should().Be(ValidationError.Code);
         shelterResponse.Errors.Count.Should().Be(1);
-        shelterResponse.Errors.FirstOrDefault().Should().Be("The value 'xxxxx' is not valid.");
+        shelterResponse.Errors.FirstOrDefault().Should().Be($"The value '${invalidId}' is not valid.");
     }
 }
