@@ -18,12 +18,12 @@ public class CreateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
     private readonly HttpClient _httpClient;
     private readonly ShelterCareApiFactory _shelterCareApiFactory;
     private readonly Faker<ShelterCreateRequest> _shelterGenerator = new Faker<ShelterCreateRequest>()
-        .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName)
+        .RuleFor(x => x.OwnerFullName, faker => faker.Person.FullName.SingleQuotes())
         .RuleFor(x => x.Website, faker => faker.Person.Email)
         .RuleFor(x => x.TotalAreaInSquareMeters, faker => 10000)
         .RuleFor(x => x.FoundationDate, faker => faker.Date.Recent())
-        .RuleFor(x => x.Address, faker => faker.Address.FullAddress())
-        .RuleFor(x => x.Name, faker => faker.Company.CompanyName());
+        .RuleFor(x => x.Address, faker => faker.Address.FullAddress().SingleQuotes())
+        .RuleFor(x => x.Name, faker => faker.Company.CompanyName().SingleQuotes());
     public CreateShelterControllerTest(ITestOutputHelper testOutputHelper, ShelterCareApiFactory shelterCareApiFactory)
     {
         _shelterCareApiFactory = shelterCareApiFactory.SetOutPut(testOutputHelper);
