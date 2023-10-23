@@ -68,4 +68,11 @@ public class ShelterRepository : IShelterRepository
             .Replace($"@{nameof(Shelter.Website)}", entity.Website);
         return await _dbConnection.QuerySingleAsync<Shelter>(updateQuery);
     }
+
+    public async Task<bool> CheckIfShelterNameExists(string shelterName)
+    {
+        string query = SqlQueries.ShelterRepositoryQueries.CheckIfShelterNameExists.Replace($"@{nameof(Shelter.Name)}",shelterName);
+        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(query);
+        return response?.Count() > 0 && response.FirstOrDefault() == 1;
+    }
 }

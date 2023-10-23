@@ -49,5 +49,12 @@ public class UpdateShelterCommandFailed
     public const string Message = "Error occured while updating shelter";
 }
 
+public class ShelterNameAlreadyExists
+{
+    public const int EventId = 1005;
+    public const string Code = "SHELTER-NAME-ALREADY-EXISTS";
+    public const string Message = "Shelter name is already exists";
+}
+
 
 

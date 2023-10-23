@@ -21,7 +21,7 @@ public class CreateShelterCommandHandler : IRequestHandler<CreateShelterCommand,
     {
         try
         {
-            CreateShelterCommandValidation validationRules = new();
+            CreateShelterCommandValidation validationRules = new(_shelterRepository);
             var validationResult = await validationRules.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
             {

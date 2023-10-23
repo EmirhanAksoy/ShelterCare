@@ -52,5 +52,6 @@ public static class SqlQueries
 
             RETURNING *
             """;
+        public const string CheckIfShelterNameExists = "SELECT 1 FROM Shelters WHERE name='@Name'";
     }
 }
