@@ -1,11 +1,5 @@
 ﻿namespace ShelterCare.Application;
 
-public class ValidationError
-{
-    public const int EventId = 100;
-    public const string Code = "VALIDATION-ERROR";
-    public const string Message = "Validation failed";
-}
 
 public class GetAllSheltersQueryFailed 
 {
@@ -51,7 +45,7 @@ public class UpdateShelterCommandFailed
 
 public class ShelterNameAlreadyExists
 {
-    public const int EventId = 1005;
+    public const int EventId = 1006;
     public const string Code = "SHELTER-NAME-ALREADY-EXISTS";
     public const string Message = "Shelter name is already exists";
 }

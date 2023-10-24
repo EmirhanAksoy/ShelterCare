@@ -1,8 +1,8 @@
-﻿namespace ShelterCare.Application.Common.ErrorCodes.Base;
+﻿namespace ShelterCare.Application;
 
-public interface IApplicationErrorBase
+public class ValidationError
 {
-    public static string Code { get; }
-
-    public static string Message { get; }
+    public const int EventId = 100;
+    public const string Code = "VALIDATION-ERROR";
+    public const string Message = "Validation failed";
 }

@@ -5,5 +5,4 @@ namespace ShelterCare.Core.Domain;
 public class AnimalSpecie : Entity
 {
     public string Name { get; set; }
-    public string Breed { get; set; }
 }
