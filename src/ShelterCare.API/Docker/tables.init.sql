@@ -20,5 +20,14 @@ CREATE TABLE IF NOT EXISTS AnimalSpecies (
     CreateUserId UUID,
     UpdateDate TIMESTAMP,
     UpdateUserId UUID,
-    Name VARCHAR(255) -- Adjust the data type and length as needed
+    Name VARCHAR(255) 
 );
+
+INSERT INTO Animals (name) VALUES ('cat')
+ON CONFLICT (name) DO NOTHING;
+
+INSERT INTO Animals (name) VALUES ('dog')
+ON CONFLICT (name) DO NOTHING;
+
+INSERT INTO Animals (name) VALUES ('bird')
+ON CONFLICT (name) DO NOTHING;
