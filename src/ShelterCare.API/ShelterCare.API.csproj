@@ -9,9 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contracts\Responses\**" />
     <Compile Remove="Validators\**" />
+    <Content Remove="Contracts\Responses\**" />
     <Content Remove="Validators\**" />
+    <EmbeddedResource Remove="Contracts\Responses\**" />
     <EmbeddedResource Remove="Validators\**" />
+    <None Remove="Contracts\Responses\**" />
     <None Remove="Validators\**" />
   </ItemGroup>
 
@@ -20,10 +24,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Riok.Mapperly" Version="3.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Contracts\Responses\" />
   </ItemGroup>
 
   <ItemGroup>

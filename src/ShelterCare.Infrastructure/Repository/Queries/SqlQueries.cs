@@ -54,4 +54,40 @@ public static class SqlQueries
             """;
         public const string CheckIfShelterNameExists = "SELECT 1 FROM Shelters WHERE name='@Name'";
     }
+
+    public static class AnimalSpecieRepositoryQueries
+    {
+        public const string GetAll = "SELECT * FROM AnimalSpecies";
+        public const string Get = "SELECT * FROM AnimalSpecies WHERE id = '@id'";
+        public const string Delete = "DELETE FROM AnimalSpecies WHERE id = '@id'";
+        public const string Update = $"""
+            UPDATE AnimalSpecies
+            SET
+            {nameof(AnimalSpecie.Name)} = '@Name',
+            {nameof(AnimalSpecie.UpdateDate)} = '@UpdateDate',
+            {nameof(AnimalSpecie.UpdateUserId)} = '@UpdateUserId'
+            WHERE id = '@id'
+
+            RETURNING *
+            """;
+        public const string Create = $"""
+            INSERT INTO AnimalSpecies
+            (
+            {nameof(AnimalSpecie.Name)},
+            {nameof(AnimalSpecie.IsActive)},
+            {nameof(AnimalSpecie.CreateDate)},
+            {nameof(AnimalSpecie.CreateUserId)}
+            )
+            VALUES
+            (
+             '@Name',
+             '@IsActive',
+             '@CreateDate',
+             '@CreateUserId'
+            )
+
+            RETURNING *
+            """;
+        public const string CheckIfAnimalSpecieNameExists = "SELECT 1 FROM AnimalSpecies WHERE name='@Name'";
+    }
 }

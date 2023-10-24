@@ -22,7 +22,6 @@ public class ShelterRepository : IShelterRepository
     public async Task<Shelter> Create(Shelter entity)
     {
         string createQuery = SqlQueries.ShelterRepositoryQueries.Create
-            .Replace($"@{nameof(Shelter.Id).ToLower()}", entity.Id.ToString())
             .Replace($"@{nameof(Shelter.Name)}", entity.Name)
             .Replace($"@{nameof(Shelter.OwnerFullName)}", entity.OwnerFullName)
             .Replace($"@{nameof(Shelter.Address)}", entity.Address)

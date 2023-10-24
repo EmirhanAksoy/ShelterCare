@@ -8,5 +8,6 @@ public static class AddFluentValidationExtension
     public static void AddFluentValidation(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<CreateShelterCommandValidation>();
+        services.AddValidatorsFromAssemblyContaining<CreateAnimalSpecieCommandValidation>();
     }
 }

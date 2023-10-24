@@ -17,6 +17,7 @@ builder.Services.AddFluentValidation();
 string? dbConnectionString = builder.Configuration.GetConnectionString("ShelterCare");
 builder.Services.AddNpgsqlConnection(dbConnectionString);
 builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
+builder.Services.AddTransient<IAnimalSpecieRepository,AnimalSpecieRepository>();
 builder.Services.AddMediatR();
 
 var app = builder.Build();

@@ -10,24 +10,26 @@ CREATE TABLE IF NOT EXISTS Shelters (
     CreateDate TIMESTAMP NOT NULL,
     CreateUserId UUID NOT NULL,
     UpdateDate TIMESTAMP,
-    UpdateUserId UUID
+    UpdateUserId UUID,
+     unique(Name) 
 );
 
 CREATE TABLE IF NOT EXISTS AnimalSpecies (
-    Id UUID PRIMARY KEY,
+    Id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     IsActive BOOLEAN,
     CreateDate TIMESTAMP,
     CreateUserId UUID,
     UpdateDate TIMESTAMP,
     UpdateUserId UUID,
-    Name VARCHAR(255) 
+    Name VARCHAR(255),
+    unique(Name) 
 );
 
-INSERT INTO Animals (name) VALUES ('cat')
+INSERT INTO AnimalSpecies (name) VALUES ('cat')
 ON CONFLICT (name) DO NOTHING;
 
-INSERT INTO Animals (name) VALUES ('dog')
+INSERT INTO AnimalSpecies (name) VALUES ('dog')
 ON CONFLICT (name) DO NOTHING;
 
-INSERT INTO Animals (name) VALUES ('bird')
+INSERT INTO AnimalSpecies (name) VALUES ('bird')
 ON CONFLICT (name) DO NOTHING;
