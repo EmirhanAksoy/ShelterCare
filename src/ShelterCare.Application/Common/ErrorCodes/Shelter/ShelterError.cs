@@ -22,7 +22,7 @@ public class CreateShelterCommandFailed
     public const string Message = "Error occured while creating shelter";
 }
 
-public class DeletehelterByIdCommandFailed
+public class DeleteShelterByIdCommandFailed
 {
     public const int EventId = 1003;
     public const string Code = "SHELTER-DELETE-BY-ID-FAIL";

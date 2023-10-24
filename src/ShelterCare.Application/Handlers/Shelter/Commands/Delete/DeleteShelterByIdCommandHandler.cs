@@ -42,8 +42,8 @@ public class DeleteShelterByIdCommandHandler : IRequestHandler<DeleteShelterById
         }
         catch (Exception exception)
         {
-            _logger.LogError(DeletehelterByIdCommandFailed.EventId, exception, "{Code} {Message} {shelterId}", DeletehelterByIdCommandFailed.Code, DeletehelterByIdCommandFailed.Message, request.Id.ToString());
-            return Response<bool>.ErrorResult(DeletehelterByIdCommandFailed.Code, DeletehelterByIdCommandFailed.Message);
+            _logger.LogError(DeleteShelterByIdCommandFailed.EventId, exception, "{Code} {Message} {shelterId}", DeleteShelterByIdCommandFailed.Code, DeleteShelterByIdCommandFailed.Message, request.Id.ToString());
+            return Response<bool>.ErrorResult(DeleteShelterByIdCommandFailed.Code, DeleteShelterByIdCommandFailed.Message);
         }
     }
 }

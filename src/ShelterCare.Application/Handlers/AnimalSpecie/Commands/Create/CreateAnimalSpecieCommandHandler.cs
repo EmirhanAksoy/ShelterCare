@@ -29,7 +29,7 @@ public class CreateAnimalSpecieCommandHandler : IRequestHandler<CreateAnimalSpec
             }
             AnimalSpecie animalSpecie = new()
             {
-                Name = request.Name,
+                Name = request.Name.ToLower(),
             };
             AnimalSpecie createdAnimalSpecie = await _animalSpecieRepository.Create(animalSpecie);
             _logger.LogInformation("Animal specie created successfully {@createdAnimalSpecie}", createdAnimalSpecie);
