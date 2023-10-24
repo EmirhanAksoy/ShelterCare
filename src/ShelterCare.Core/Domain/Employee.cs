@@ -4,7 +4,7 @@ namespace ShelterCare.Core.Domain;
 
 public class Employee : Entity
 {
-    public string HouseId { get; set; }
+    public Guid ShelterId { get; set; }
     public string Fullname { get; set; }
     public string NationalId { get; set; }
     public string EmailAddress { get; set; }

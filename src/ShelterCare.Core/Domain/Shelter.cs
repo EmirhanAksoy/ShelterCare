@@ -11,9 +11,3 @@ public class Shelter : Entity
     public string Address { get; set; }
     public string Website { get; set; }
 }
-
-public class Location
-{
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-}
