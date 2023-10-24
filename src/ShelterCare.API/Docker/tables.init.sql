@@ -12,3 +12,13 @@ CREATE TABLE IF NOT EXISTS Shelters (
     UpdateDate TIMESTAMP,
     UpdateUserId UUID
 );
+
+CREATE TABLE IF NOT EXISTS AnimalSpecies (
+    Id UUID PRIMARY KEY,
+    IsActive BOOLEAN,
+    CreateDate TIMESTAMP,
+    CreateUserId UUID,
+    UpdateDate TIMESTAMP,
+    UpdateUserId UUID,
+    Name VARCHAR(255) -- Adjust the data type and length as needed
+);
