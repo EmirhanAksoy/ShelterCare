@@ -52,7 +52,7 @@ public static class SqlQueries
 
             RETURNING *
             """;
-        public const string CheckIfShelterNameExists = "SELECT 1 FROM Shelters WHERE name='@Name'";
+        public const string CheckIfShelterNameExists = "SELECT 1 FROM Shelters WHERE UPPER(name)=UPPER('@Name')";
     }
 
     public static class AnimalSpecieRepositoryQueries
@@ -88,6 +88,6 @@ public static class SqlQueries
 
             RETURNING *
             """;
-        public const string CheckIfAnimalSpecieNameExists = "SELECT 1 FROM AnimalSpecies WHERE name='@Name'";
+        public const string CheckIfAnimalSpecieNameExists = "SELECT 1 FROM AnimalSpecies WHERE  UPPER(name)=UPPER('@Name')";
     }
 }
