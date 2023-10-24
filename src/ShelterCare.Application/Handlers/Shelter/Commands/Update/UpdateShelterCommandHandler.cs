@@ -4,7 +4,7 @@ using ShelterCare.Core.Abstractions.Repository;
 
 namespace ShelterCare.Application;
 
-public class UpdateShelterCommandHandler : IRequestHandler<UpdateShelterCommand,Response<Shelter>>
+public class UpdateShelterCommandHandler : IRequestHandler<UpdateShelterCommand, Response<Shelter>>
 {
     private readonly IShelterRepository _shelterRepository;
     private readonly ILogger<UpdateShelterCommandHandler> _logger;

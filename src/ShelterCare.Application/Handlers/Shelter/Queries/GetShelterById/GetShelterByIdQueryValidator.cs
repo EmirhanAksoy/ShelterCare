@@ -6,6 +6,6 @@ public class GetShelterByIdQueryValidator : AbstractValidator<GetShelterByIdQuer
 {
     public GetShelterByIdQueryValidator()
     {
-        RuleFor(x=>x.Id).NotNull().NotEmpty();
+        RuleFor(x => x.Id).NotNull().NotEmpty();
     }
 }

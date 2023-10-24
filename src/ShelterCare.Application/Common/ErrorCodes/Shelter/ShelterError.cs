@@ -1,7 +1,7 @@
 ﻿namespace ShelterCare.Application;
 
 
-public class GetAllSheltersQueryFailed 
+public class GetAllSheltersQueryFailed
 {
     public const int EventId = 1000;
     public const string Code = "SHELTER-QUERY-ALL-FAILED";

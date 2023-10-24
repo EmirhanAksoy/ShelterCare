@@ -36,7 +36,7 @@ public class DeleteShelterByIdCommandHandler : IRequestHandler<DeleteShelterById
             bool isDeleted = await _shelterRepository.Delete(request.Id);
             if (isDeleted)
             {
-                _logger.LogInformation("Shelter deleted successfully {shelterId}",request.Id.ToString());
+                _logger.LogInformation("Shelter deleted successfully {shelterId}", request.Id.ToString());
             }
             return Response<bool>.SuccessResult(isDeleted);
         }

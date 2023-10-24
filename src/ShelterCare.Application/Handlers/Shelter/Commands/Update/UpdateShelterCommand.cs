@@ -1,7 +1,7 @@
 ﻿using MediatR;
 
 namespace ShelterCare.Application;
-public class UpdateShelterCommand : IRequest<Response<Shelter>> 
+public class UpdateShelterCommand : IRequest<Response<Shelter>>
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

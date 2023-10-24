@@ -7,7 +7,7 @@ namespace ShelterCare.Infrastructure.Logger.Extensions;
 
 public static class AddSerilogExtension
 {
-    public static void AddWebHostSerilog(this ILoggingBuilder loggingBuilder,IConfiguration configuration)
+    public static void AddWebHostSerilog(this ILoggingBuilder loggingBuilder, IConfiguration configuration)
     {
         string seqServerUrl = configuration.GetSection("SeqOptions:ServerUrl").Value ?? string.Empty;
         Serilog.ILogger logger = new LoggerConfiguration()

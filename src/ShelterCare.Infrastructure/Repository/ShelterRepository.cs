@@ -38,7 +38,7 @@ public class ShelterRepository : IShelterRepository
     public async Task<bool> Delete(Guid id)
     {
         int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.ShelterRepositoryQueries.Delete.Replace($"@{nameof(Shelter.Id).ToLower()}", id.ToString()));
-        return effectedRows > 0 ;
+        return effectedRows > 0;
     }
 
     public async Task<Shelter> Get(Guid id)
@@ -70,7 +70,7 @@ public class ShelterRepository : IShelterRepository
 
     public async Task<bool> CheckIfShelterNameExists(string shelterName)
     {
-        string query = SqlQueries.ShelterRepositoryQueries.CheckIfShelterNameExists.Replace($"@{nameof(Shelter.Name)}",shelterName);
+        string query = SqlQueries.ShelterRepositoryQueries.CheckIfShelterNameExists.Replace($"@{nameof(Shelter.Name)}", shelterName);
         IEnumerable<int> response = await _dbConnection.QueryAsync<int>(query);
         return response?.Count() > 0 && response.FirstOrDefault() == 1;
     }

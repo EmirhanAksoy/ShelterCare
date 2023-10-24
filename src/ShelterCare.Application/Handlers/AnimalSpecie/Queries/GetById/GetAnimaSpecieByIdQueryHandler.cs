@@ -27,7 +27,7 @@ public class GetAnimaSpecieByIdQueryHandler : IRequestHandler<GetAnimaSpecieById
                 _logger.LogError(ValidationError.EventId, "{Code} {Message} : {@errorMessages} {animalSpecieId}", ValidationError.Code, ValidationError.Message, errorMessages, request.Id.ToString());
                 return Response<AnimalSpecie>.ErrorResult(ValidationError.Code, errorMessages);
             }
-            AnimalSpecie animalSpecie= await _animalSpecieRepository.Get(request.Id);
+            AnimalSpecie animalSpecie = await _animalSpecieRepository.Get(request.Id);
             if (animalSpecie is null)
             {
                 _logger.LogError(ShelterNotFound.EventId, "{Code} {Message} {animalSpecieId}", AnimalSpecieNotFound.Code, AnimalSpecieNotFound.Message, request.Id.ToString());

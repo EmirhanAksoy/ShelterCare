@@ -2,5 +2,5 @@
 
 public interface IApiMarker
 {
-   void Test();
+    void Test();
 }

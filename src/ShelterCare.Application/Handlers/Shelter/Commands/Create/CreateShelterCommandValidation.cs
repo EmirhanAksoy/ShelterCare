@@ -11,7 +11,7 @@ public class CreateShelterCommandValidation : AbstractValidator<CreateShelterCom
         _shelterRepository = shelterRepository;
 
         RuleFor(x => x.Name).NotEmpty();
-        RuleFor(x => x.Name).MustAsync((x,_) => CheckIfShelterNameExists(x)).WithErrorCode(ShelterNameAlreadyExists.Code).WithMessage(ShelterNameAlreadyExists.Message);
+        RuleFor(x => x.Name).MustAsync((x, _) => CheckIfShelterNameExists(x)).WithErrorCode(ShelterNameAlreadyExists.Code).WithMessage(ShelterNameAlreadyExists.Message);
         RuleFor(x => x.OwnerFullName).NotEmpty();
         RuleFor(x => x.Address).NotEmpty();
         RuleFor(x => x.FoundationDate).NotEmpty();
