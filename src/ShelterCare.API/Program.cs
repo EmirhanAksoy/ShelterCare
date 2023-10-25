@@ -18,6 +18,7 @@ string? dbConnectionString = builder.Configuration.GetConnectionString("ShelterC
 builder.Services.AddNpgsqlConnection(dbConnectionString);
 builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
 builder.Services.AddTransient<IAnimalSpecieRepository, AnimalSpecieRepository>();
+builder.Services.AddTransient<IAnimalOwnerRepository, AnimalOwnerRepository>();
 builder.Services.AddMediatR();
 
 var app = builder.Build();

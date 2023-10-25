@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS AnimalSpecies (
     UpdateDate TIMESTAMP,
     UpdateUserId UUID,
     Name VARCHAR(255),
-    unique(Name) 
+    unique(Name)  
 );
 
 INSERT INTO AnimalSpecies (name) VALUES ('cat')
@@ -33,3 +33,17 @@ ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO AnimalSpecies (name) VALUES ('bird')
 ON CONFLICT (name) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS AnimalOwners (
+    Id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    Fullname VARCHAR(255) NOT NULL,
+    NationalId TEXT,
+    EmailAddress TEXT,
+    PhoneNumber TEXT,
+    IsActive BOOLEAN,
+    CreateDate TIMESTAMP,
+    CreateUserId UUID,
+    UpdateDate TIMESTAMP,
+    UpdateUserId UUID,
+     unique(NationalId) 
+);

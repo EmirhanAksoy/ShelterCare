@@ -9,5 +9,6 @@ public static class AddFluentValidationExtension
     {
         services.AddValidatorsFromAssemblyContaining<CreateShelterCommandValidation>();
         services.AddValidatorsFromAssemblyContaining<CreateAnimalSpecieCommandValidation>();
+        services.AddValidatorsFromAssemblyContaining<CreateAnimalOwnerCommandValidation>();
     }
 }
