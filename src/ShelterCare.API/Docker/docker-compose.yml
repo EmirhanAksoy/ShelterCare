@@ -21,3 +21,7 @@ services:
       ACCEPT_EULA: Y
     ports:
       - "5341:80"
+  fake-confirmation-api:
+   image: emirhandocker/sheltercarefakeconfirmationapi:latest
+   ports:
+      - "8080:8080"

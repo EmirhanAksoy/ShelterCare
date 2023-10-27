@@ -1,0 +1,6 @@
+@ShelterCare.FakeConfirmationApi_HostAddress = http://localhost:5002
+
+GET {{ShelterCare.FakeConfirmationApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
