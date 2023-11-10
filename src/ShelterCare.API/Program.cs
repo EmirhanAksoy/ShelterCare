@@ -4,6 +4,7 @@ using ShelterCare.Infrastructure.Repository.Extensions;
 using ShelterCare.Application.Extensions;
 using ShelterCare.Infrastructure.Logger.Extensions;
 using ShelterCare.API.Middlewares;
+using ShelterCare.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,10 @@ builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
 builder.Services.AddTransient<IAnimalSpecieRepository, AnimalSpecieRepository>();
 builder.Services.AddTransient<IAnimalOwnerRepository, AnimalOwnerRepository>();
 builder.Services.AddMediatR();
+builder.Services.AddHttpClient(ApplicationConstants.ConfirmApi, (httpClient) =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ConformationApi:BaseUrl") ?? "");
+});
 
 var app = builder.Build();
 

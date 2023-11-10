@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 public class GetAllAnimalOwnersQueryFailed
 {
     public const int EventId = 2000;
@@ -52,4 +46,11 @@ public class AnimalOwnerNationalIdAlreadyExists
     public const int EventId = 2006;
     public const string Code = "ANIMAL-OWNER-NATIONAL-ID-ALREADY-EXISTS";
     public const string Message = "Animal owner national id is already exists";
+}
+
+public class AnimalOwnerConfirmationFailed
+{
+    public const int EventId = 2007;
+    public const string Code = "ANIMAL-OWNER-NATIONAL-ID-NOT-EXISTS";
+    public const string Message = "Animal owner with given national id not exists";
 }
