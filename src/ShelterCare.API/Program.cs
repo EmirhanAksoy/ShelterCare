@@ -4,27 +4,22 @@ using ShelterCare.Infrastructure.Repository.Extensions;
 using ShelterCare.Application.Extensions;
 using ShelterCare.Infrastructure.Logger.Extensions;
 using ShelterCare.API.Middlewares;
-using ShelterCare.Application;
+using ShelterCare.Infrastructure.ExternalApis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// For test loggings using IWebHost
-builder.Logging.AddWebHostSerilog(builder.Configuration);
+builder.Host.AddHostSerilog(builder.Configuration);
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFluentValidation();
-string? dbConnectionString = builder.Configuration.GetConnectionString("ShelterCare");
-builder.Services.AddNpgsqlConnection(dbConnectionString);
+builder.Services.AddNpgsqlConnection(builder.Configuration.GetConnectionString("ShelterCare"));
 builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
 builder.Services.AddTransient<IAnimalSpecieRepository, AnimalSpecieRepository>();
 builder.Services.AddTransient<IAnimalOwnerRepository, AnimalOwnerRepository>();
 builder.Services.AddMediatR();
-builder.Services.AddHttpClient(ApplicationConstants.ConfirmApi, (httpClient) =>
-{
-    httpClient.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ConformationApi:BaseUrl") ?? "");
-});
+builder.Services.AddConfirmApi(builder.Configuration);
 
 var app = builder.Build();
 

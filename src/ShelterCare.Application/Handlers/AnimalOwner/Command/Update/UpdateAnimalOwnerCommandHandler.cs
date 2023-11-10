@@ -1,18 +1,20 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using ShelterCare.Core.Abstractions.Repository;
+using ShelterCare.Infrastructure.ExternalApis;
 
 namespace ShelterCare.Application;
-
 public class UpdateAnimalOwnerCommandHandler : IRequestHandler<UpdateAnimalOwnerCommand, Response<AnimalOwner>>
 {
     private readonly IAnimalOwnerRepository _animalOwnerRepository;
     private readonly ILogger<UpdateAnimalOwnerCommandHandler> _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public UpdateAnimalOwnerCommandHandler(ILogger<UpdateAnimalOwnerCommandHandler> logger, IAnimalOwnerRepository animalOwnerRepository)
+    public UpdateAnimalOwnerCommandHandler(ILogger<UpdateAnimalOwnerCommandHandler> logger, IAnimalOwnerRepository animalOwnerRepository, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
         _animalOwnerRepository = animalOwnerRepository;
+        _httpClientFactory = httpClientFactory;
     }
     public async Task<Response<AnimalOwner>> Handle(UpdateAnimalOwnerCommand request, CancellationToken cancellationToken)
     {
@@ -25,6 +27,13 @@ public class UpdateAnimalOwnerCommandHandler : IRequestHandler<UpdateAnimalOwner
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
                 _logger.LogError(ValidationError.EventId, "{Code} {Message} : {@errorMessages}", ValidationError.Code, ValidationError.Message, errorMessages);
                 return Response<AnimalOwner>.ErrorResult(ValidationError.Code, errorMessages);
+            }
+            ConfirmApiHandler confirmApiHandler = new(_httpClientFactory);
+            bool confirmationResult = await confirmApiHandler.ConfirmOwner(request.NationalId);
+            if (!confirmationResult)
+            {
+                _logger.LogError("{Code} {Message} {nationalId}", AnimalOwnerConfirmationFailed.Code, AnimalOwnerConfirmationFailed.Message, request.NationalId);
+                return Response<AnimalOwner>.ErrorResult(AnimalOwnerConfirmationFailed.Code, AnimalOwnerConfirmationFailed.Message);
             }
 
             AnimalOwner existingAnimalOwner = await _animalOwnerRepository.Get(request.Id);

@@ -44,6 +44,5 @@ CREATE TABLE IF NOT EXISTS AnimalOwners (
     CreateDate TIMESTAMP,
     CreateUserId UUID,
     UpdateDate TIMESTAMP,
-    UpdateUserId UUID,
-     unique(NationalId) 
+    UpdateUserId UUID
 );
