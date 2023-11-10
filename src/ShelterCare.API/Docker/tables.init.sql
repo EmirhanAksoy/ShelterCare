@@ -46,3 +46,20 @@ CREATE TABLE IF NOT EXISTS AnimalOwners (
     UpdateDate TIMESTAMP,
     UpdateUserId UUID
 );
+
+CREATE TABLE IF NOT EXISTS Animal (
+    Id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    ShelterId UUID,
+    OwnerId UUID,
+    Name VARCHAR(255) NOT NULL,
+    UniqueIdentifier VARCHAR(255) NOT NULL,
+    DateOfBirth TIMESTAMP,
+    JoiningDate TIMESTAMP,
+    IsNeutered BOOLEAN,
+    IsDisabled BOOLEAN,
+    IsActive BOOLEAN,
+    CreateDate TIMESTAMP,
+    CreateUserId UUID,
+    UpdateDate TIMESTAMP,
+    UpdateUserId UUID
+);

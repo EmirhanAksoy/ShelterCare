@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +87,52 @@ app.MapGet("/animal/owner/confirm/{nationalId}/{uniqueAnimalId}", ([FromRoute] s
 .WithName("Confirm Animal Owner")
 .WithOpenApi();
 
+app.MapPost("/set-source", ([FromBody] Source source) =>
+{
+    if (source is null || string.IsNullOrEmpty(source.JSON))
+    {
+        return Results.BadRequest(new
+        {
+            Success = false,
+            Message = "Invalid source data"
+        });
+    }
+
+    try
+    {
+        SourceModel? sourceResult = JsonSerializer.Deserialize<SourceModel>(source.JSON);
+        if (sourceResult is null)
+        {
+            return Results.BadRequest(new
+            {
+                Success = false,
+                Message = "Invalid source data"
+            });
+        }
+
+        nationalIdentifiers = sourceResult.NationalIdentifiers;
+        animalUniqueIdentifiers = sourceResult.AnimalUniqueIdentifiers;
+
+    }
+    catch (Exception ex)
+    {
+
+        return Results.BadRequest(new
+        {
+            Success = false,
+            Message = $"Invalid source data - {ex.Message}"
+        });
+    }
+
+    return Results.Ok(new
+    {
+        Success = true,
+        Message = string.Empty
+    });
+})
+.WithName("Set Source")
+.WithOpenApi();
+
 app.Run();
 
 
@@ -103,6 +150,17 @@ public class AnimalUniqueIdentifier
     public string OwnerId { get; set; } = string.Empty;
 }
 
+public class SourceModel
+{
+    public List<AnimalUniqueIdentifier> AnimalUniqueIdentifiers { get; set; } = new();
+    public List<NationalIdentifier> NationalIdentifiers { get; set; } = new();
+}
+
+
+public class Source
+{
+    public string JSON { get; set; }
+}
 
 
 

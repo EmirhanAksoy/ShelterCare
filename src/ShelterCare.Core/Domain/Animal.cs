@@ -5,7 +5,6 @@ namespace ShelterCare.Core.Domain;
 public class Animal : Entity
 {
     public Guid ShelterId { get; set; }
-    public Guid? AreaId { get; set; }
     public Guid AnimalSpecieId { get; set; }
     public Guid OwnerId { get; set; }
     public string Name { get; set; }
