@@ -7,20 +7,20 @@ public static class SqlQueries
     public static class ShelterRepositoryQueries
     {
         public const string GetAll = "SELECT * FROM Shelters";
-        public const string Get = "SELECT * FROM Shelters WHERE id = '@id'";
-        public const string Delete = "DELETE FROM Shelters WHERE id = '@id'";
+        public const string Get = "SELECT * FROM Shelters WHERE id = @id";
+        public const string Delete = "DELETE FROM Shelters WHERE id = @id";
         public const string Update = $"""
             UPDATE Shelters
             SET
-            {nameof(Shelter.Name)} = '@Name',
-            {nameof(Shelter.OwnerFullName)} = '@OwnerFullName',
-            {nameof(Shelter.Address)} = '@Address',
-            {nameof(Shelter.FoundationDate)} = '@FoundationDate',
-            {nameof(Shelter.UpdateDate)} = '@UpdateDate',
-            {nameof(Shelter.UpdateUserId)} = '@UpdateUserId',
-            {nameof(Shelter.Website)} = '@Website',
-            {nameof(Shelter.TotalAreaInSquareMeters)} = '@TotalAreaInSquareMeters'
-            WHERE id = '@id'
+            {nameof(Shelter.Name)} = @Name,
+            {nameof(Shelter.OwnerFullName)} = @OwnerFullName,
+            {nameof(Shelter.Address)} = @Address,
+            {nameof(Shelter.FoundationDate)} = @FoundationDate,
+            {nameof(Shelter.UpdateDate)} = @UpdateDate,
+            {nameof(Shelter.UpdateUserId)} = @UpdateUserId,
+            {nameof(Shelter.Website)} = @Website,
+            {nameof(Shelter.TotalAreaInSquareMeters)} = @TotalAreaInSquareMeters
+            WHERE id = @id
 
             RETURNING *
             """;
@@ -39,34 +39,34 @@ public static class SqlQueries
             )
             VALUES
             (
-             '@Name',
-             '@IsActive',
-             '@OwnerFullName',
-             '@Address',
-             '@FoundationDate',
-             '@CreateDate',
-             '@CreateUserId',
-             '@Website',
-             '@TotalAreaInSquareMeters'
+             @Name,
+             @IsActive,
+             @OwnerFullName,
+             @Address,
+             @FoundationDate,
+             @CreateDate,
+             @CreateUserId,
+             @Website,
+             @TotalAreaInSquareMeters
             )
 
             RETURNING *
             """;
-        public const string CheckIfShelterNameExists = "SELECT 1 FROM Shelters WHERE UPPER(name)=UPPER('@Name')";
+        public const string CheckIfShelterNameExists = "SELECT 1 FROM Shelters WHERE UPPER(name)=UPPER(@Name)";
     }
 
     public static class AnimalSpecieRepositoryQueries
     {
         public const string GetAll = "SELECT * FROM AnimalSpecies";
-        public const string Get = "SELECT * FROM AnimalSpecies WHERE id = '@id'";
-        public const string Delete = "DELETE FROM AnimalSpecies WHERE id = '@id'";
+        public const string Get = "SELECT * FROM AnimalSpecies WHERE id = @id";
+        public const string Delete = "DELETE FROM AnimalSpecies WHERE id = @id";
         public const string Update = $"""
             UPDATE AnimalSpecies
             SET
-            {nameof(AnimalSpecie.Name)} = '@Name',
-            {nameof(AnimalSpecie.UpdateDate)} = '@UpdateDate',
-            {nameof(AnimalSpecie.UpdateUserId)} = '@UpdateUserId'
-            WHERE id = '@id'
+            {nameof(AnimalSpecie.Name)} = @Name,
+            {nameof(AnimalSpecie.UpdateDate)} = @UpdateDate,
+            {nameof(AnimalSpecie.UpdateUserId)} = @UpdateUserId
+            WHERE id = @id
 
             RETURNING *
             """;
@@ -80,15 +80,15 @@ public static class SqlQueries
             )
             VALUES
             (
-             '@Name',
-             '@IsActive',
-             '@CreateDate',
-             '@CreateUserId'
+             @Name,
+             @IsActive,
+             @CreateDate,
+             @CreateUserId
             )
 
             RETURNING *
             """;
-        public const string CheckIfAnimalSpecieNameExists = "SELECT 1 FROM AnimalSpecies WHERE  UPPER(name)=UPPER('@Name')";
+        public const string CheckIfAnimalSpecieNameExists = "SELECT 1 FROM AnimalSpecies WHERE  UPPER(name)=UPPER(@Name)";
     }
 
     public static class AnimalOwnerRepositoryQueries

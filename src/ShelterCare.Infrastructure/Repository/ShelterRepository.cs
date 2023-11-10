@@ -21,29 +21,29 @@ public class ShelterRepository : IShelterRepository
 
     public async Task<Shelter> Create(Shelter entity)
     {
-        string createQuery = SqlQueries.ShelterRepositoryQueries.Create
-            .Replace($"@{nameof(Shelter.Name)}", entity.Name)
-            .Replace($"@{nameof(Shelter.OwnerFullName)}", entity.OwnerFullName)
-            .Replace($"@{nameof(Shelter.Address)}", entity.Address)
-            .Replace($"@{nameof(Shelter.Website)}", entity.Website)
-            .Replace($"@{nameof(Shelter.FoundationDate)}", entity.FoundationDate.ToString())
-            .Replace($"@{nameof(Shelter.TotalAreaInSquareMeters)}", entity.TotalAreaInSquareMeters.ToString())
-            .Replace($"@{nameof(Shelter.CreateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(Shelter.CreateUserId)}", Guid.NewGuid().ToString())
-            .Replace($"@{nameof(Shelter.IsActive)}", bool.TrueString)
-            .Replace($"@{nameof(Shelter.Website)}", entity.Website);
-        return await _dbConnection.QuerySingleAsync<Shelter>(createQuery);
+        return await _dbConnection.QuerySingleAsync<Shelter>(SqlQueries.ShelterRepositoryQueries.Create,new
+        {
+            entity.Name, 
+            entity.OwnerFullName, 
+            entity.Address,
+            entity.Website, 
+            entity.FoundationDate, 
+            entity.TotalAreaInSquareMeters,
+            IsActive = true,
+            CreateDate = DateTime.UtcNow,
+            CreateUserId = Guid.NewGuid()
+        });
     }
 
     public async Task<bool> Delete(Guid id)
     {
-        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.ShelterRepositoryQueries.Delete.Replace($"@{nameof(Shelter.Id).ToLower()}", id.ToString()));
+        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.ShelterRepositoryQueries.Delete,new { id });
         return effectedRows > 0;
     }
 
     public async Task<Shelter> Get(Guid id)
     {
-        return await _dbConnection.QueryFirstOrDefaultAsync<Shelter>(SqlQueries.ShelterRepositoryQueries.Get.Replace($"@{nameof(Shelter.Id).ToLower()}", id.ToString()));
+        return await _dbConnection.QueryFirstOrDefaultAsync<Shelter>(SqlQueries.ShelterRepositoryQueries.Get,new { id });
     }
 
     public async Task<List<Shelter>> GetAll()
@@ -54,24 +54,24 @@ public class ShelterRepository : IShelterRepository
 
     public async Task<Shelter> Update(Shelter entity)
     {
-        string updateQuery = SqlQueries.ShelterRepositoryQueries.Update
-            .Replace($"@{nameof(Shelter.Id).ToLower()}", entity.Id.ToString())
-            .Replace($"@{nameof(Shelter.Name)}", entity.Name)
-            .Replace($"@{nameof(Shelter.OwnerFullName)}", entity.OwnerFullName)
-            .Replace($"@{nameof(Shelter.FoundationDate)}", entity.FoundationDate.ToString())
-            .Replace($"@{nameof(Shelter.TotalAreaInSquareMeters)}", entity.TotalAreaInSquareMeters.ToString())
-            .Replace($"@{nameof(Shelter.Address)}", entity.Address)
-            .Replace($"@{nameof(Shelter.Website)}", entity.Website)
-            .Replace($"@{nameof(Shelter.UpdateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(Shelter.UpdateUserId)}", Guid.NewGuid().ToString())
-            .Replace($"@{nameof(Shelter.Website)}", entity.Website);
-        return await _dbConnection.QuerySingleAsync<Shelter>(updateQuery);
+        return await _dbConnection.QuerySingleAsync<Shelter>(SqlQueries.ShelterRepositoryQueries.Update, new
+        {
+            entity.Id,
+            entity.Name,
+            entity.OwnerFullName,
+            entity.Address,
+            entity.Website,
+            entity.FoundationDate,
+            entity.TotalAreaInSquareMeters,
+            IsActive = true,
+            UpdateDate = DateTime.UtcNow,
+            UpdateUserId = Guid.NewGuid()
+        });
     }
 
     public async Task<bool> CheckIfShelterNameExists(string shelterName)
     {
-        string query = SqlQueries.ShelterRepositoryQueries.CheckIfShelterNameExists.Replace($"@{nameof(Shelter.Name)}", shelterName);
-        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(query);
+        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(SqlQueries.ShelterRepositoryQueries.CheckIfShelterNameExists,new { Name = shelterName });
         return response?.Count() > 0 && response.FirstOrDefault() == 1;
     }
 }

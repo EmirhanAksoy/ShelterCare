@@ -17,23 +17,25 @@ public class AnimalSpecieRepository : IAnimalSpecieRepository
 
     public async Task<AnimalSpecie> Create(AnimalSpecie entity)
     {
-        string createQuery = SqlQueries.AnimalSpecieRepositoryQueries.Create
-            .Replace($"@{nameof(AnimalSpecie.Name)}", entity.Name)
-            .Replace($"@{nameof(AnimalSpecie.IsActive)}", bool.TrueString)
-            .Replace($"@{nameof(AnimalSpecie.CreateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(AnimalSpecie.CreateUserId)}", Guid.NewGuid().ToString());
-        return await _dbConnection.QuerySingleAsync<AnimalSpecie>(createQuery);
+
+        return await _dbConnection.QuerySingleAsync<AnimalSpecie>(SqlQueries.AnimalSpecieRepositoryQueries.Create, new
+        {
+            entity.Name,
+            IsActive = true,
+            CreateDate = DateTime.UtcNow,
+            CreateUserId = Guid.NewGuid()
+        });
     }
 
     public async Task<bool> Delete(Guid id)
     {
-        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.AnimalSpecieRepositoryQueries.Delete.Replace($"@{nameof(AnimalSpecie.Id).ToLower()}", id.ToString()));
+        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.AnimalSpecieRepositoryQueries.Delete, new { id });
         return effectedRows > 0;
     }
 
     public async Task<AnimalSpecie> Get(Guid id)
     {
-        return await _dbConnection.QueryFirstOrDefaultAsync<AnimalSpecie>(SqlQueries.AnimalSpecieRepositoryQueries.Get.Replace($"@{nameof(AnimalSpecie.Id).ToLower()}", id.ToString()));
+        return await _dbConnection.QueryFirstOrDefaultAsync<AnimalSpecie>(SqlQueries.AnimalSpecieRepositoryQueries.Get, new { id });
     }
 
     public async Task<List<AnimalSpecie>> GetAll()
@@ -44,18 +46,19 @@ public class AnimalSpecieRepository : IAnimalSpecieRepository
 
     public async Task<AnimalSpecie> Update(AnimalSpecie entity)
     {
-        string updateQuery = SqlQueries.AnimalSpecieRepositoryQueries.Update
-            .Replace($"@{nameof(AnimalSpecie.Id).ToLower()}", entity.Id.ToString())
-            .Replace($"@{nameof(AnimalSpecie.Name)}", entity.Name)
-            .Replace($"@{nameof(AnimalSpecie.UpdateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(AnimalSpecie.UpdateUserId)}", Guid.NewGuid().ToString());
-        return await _dbConnection.QuerySingleAsync<AnimalSpecie>(updateQuery);
+        return await _dbConnection.QuerySingleAsync<AnimalSpecie>(SqlQueries.AnimalSpecieRepositoryQueries.Update, new
+        {
+            entity.Id,
+            entity.Name,
+            IsActive = true,
+            UpdateDate = DateTime.UtcNow,
+            UpdateUserId = Guid.NewGuid()
+        });
     }
 
     public async Task<bool> CheckIfAnimalSpecieNameExists(string animaSpecieName)
     {
-        string query = SqlQueries.AnimalSpecieRepositoryQueries.CheckIfAnimalSpecieNameExists.Replace($"@{nameof(AnimalSpecie.Name)}", animaSpecieName);
-        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(query);
+        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(SqlQueries.AnimalSpecieRepositoryQueries.CheckIfAnimalSpecieNameExists, new { Name = animaSpecieName });
         return response?.Count() > 0 && response.FirstOrDefault() == 1;
     }
 }
