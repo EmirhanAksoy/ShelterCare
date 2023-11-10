@@ -135,4 +135,62 @@ public static class SqlQueries
             """;
         public const string CheckIfAnimalOwnerExists = "SELECT 1 FROM AnimalOwners WHERE  UPPER(nationalId)=UPPER(@NationalId)";
     }
+
+    public static class AnimalRepositoryQueries
+    {
+        public const string GetAll = "SELECT * FROM Animal";
+        public const string Get = "SELECT * FROM Animal WHERE id = @id";
+        public const string Delete = "DELETE FROM Animal WHERE id = @id";
+        public const string Update = $@"
+        UPDATE Animal
+        SET
+        {nameof(Animal.ShelterId)} = @ShelterId,
+        {nameof(Animal.OwnerId)} = @OwnerId,
+        {nameof(Animal.Name)} = @Name,
+        {nameof(Animal.UniqueIdentifier)} = @UniqueIdentifier,
+        {nameof(Animal.DateOfBirth)} = @DateOfBirth,
+        {nameof(Animal.JoiningDate)} = @JoiningDate,
+        {nameof(Animal.IsNeutered)} = @IsNeutered,
+        {nameof(Animal.IsDisabled)} = @IsDisabled,
+        {nameof(Animal.IsActive)} = @IsActive,
+        {nameof(Animal.UpdateDate)} = @UpdateDate,
+        {nameof(Animal.UpdateUserId)} = @UpdateUserId
+        WHERE id = @id
+        RETURNING *
+        ";
+
+        public const string Create = $@"
+        INSERT INTO Animal
+        (
+        {nameof(Animal.ShelterId)},
+        {nameof(Animal.OwnerId)},
+        {nameof(Animal.Name)},
+        {nameof(Animal.UniqueIdentifier)},
+        {nameof(Animal.DateOfBirth)},
+        {nameof(Animal.JoiningDate)},
+        {nameof(Animal.IsNeutered)},
+        {nameof(Animal.IsDisabled)},
+        {nameof(Animal.IsActive)},
+        {nameof(Animal.CreateDate)},
+        {nameof(Animal.CreateUserId)}
+        )
+        VALUES
+        (
+        @ShelterId,
+        @OwnerId,
+        @Name,
+        @UniqueIdentifier,
+        @DateOfBirth,
+        @JoiningDate,
+        @IsNeutered,
+        @IsDisabled,
+        @IsActive,
+        @CreateDate,
+        @CreateUserId
+        )
+        RETURNING *
+        ";
+
+        public const string CheckIfAnimalNameExists = "SELECT 1 FROM Animal WHERE UPPER(name) = UPPER(@Name)";
+    }
 }
