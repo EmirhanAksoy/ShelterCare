@@ -94,18 +94,18 @@ public static class SqlQueries
     public static class AnimalOwnerRepositoryQueries
     {
         public const string GetAll = "SELECT * FROM AnimalOwners";
-        public const string Get = "SELECT * FROM AnimalOwners WHERE id = '@id'";
-        public const string Delete = "DELETE FROM AnimalOwners WHERE id = '@id'";
+        public const string Get = "SELECT * FROM AnimalOwners WHERE id = @id";
+        public const string Delete = "DELETE FROM AnimalOwners WHERE id = @id";
         public const string Update = $"""
             UPDATE AnimalOwners
             SET
-            {nameof(AnimalOwner.Fullname)} = '@Fullname',
-            {nameof(AnimalOwner.PhoneNumber)} = '@PhoneNumber',
-            {nameof(AnimalOwner.EmailAddress)} = '@EmailAddress',
-            {nameof(AnimalOwner.NationalId)} = '@NationalId',
-            {nameof(AnimalOwner.UpdateDate)} = '@UpdateDate',
-            {nameof(AnimalOwner.UpdateUserId)} = '@UpdateUserId'
-            WHERE id = '@id'
+            {nameof(AnimalOwner.Fullname)} = @Fullname,
+            {nameof(AnimalOwner.PhoneNumber)} = @PhoneNumber,
+            {nameof(AnimalOwner.EmailAddress)} = @EmailAddress,
+            {nameof(AnimalOwner.NationalId)} = @NationalId,
+            {nameof(AnimalOwner.UpdateDate)} = @UpdateDate,
+            {nameof(AnimalOwner.UpdateUserId)} = @UpdateUserId
+            WHERE id = @id
 
             RETURNING *
             """;
@@ -122,17 +122,17 @@ public static class SqlQueries
             )
             VALUES
             (
-             '@Fullname',
-             '@PhoneNumber',
-             '@EmailAddress',
-             '@NationalId',
-             '@IsActive',
-             '@CreateDate',
-             '@CreateUserId'
+             @Fullname,
+             @PhoneNumber,
+             @EmailAddress,
+             @NationalId,
+             @IsActive,
+             @CreateDate,
+             @CreateUserId
             )
 
             RETURNING *
             """;
-        public const string CheckIfAnimalOwnerExists = "SELECT 1 FROM AnimalOwners WHERE  UPPER(nationalId)=UPPER('@NationalId')";
+        public const string CheckIfAnimalOwnerExists = "SELECT 1 FROM AnimalOwners WHERE  UPPER(nationalId)=UPPER(@NationalId)";
     }
 }

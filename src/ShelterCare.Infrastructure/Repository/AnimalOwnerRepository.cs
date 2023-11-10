@@ -17,26 +17,27 @@ public class AnimalOwnerRepository : IAnimalOwnerRepository
 
     public async Task<AnimalOwner> Create(AnimalOwner entity)
     {
-        string createQuery = SqlQueries.AnimalOwnerRepositoryQueries.Create
-            .Replace($"@{nameof(AnimalOwner.Fullname)}", entity.Fullname)
-            .Replace($"@{nameof(AnimalOwner.EmailAddress)}", entity.EmailAddress)
-            .Replace($"@{nameof(AnimalOwner.PhoneNumber)}", entity.PhoneNumber)
-            .Replace($"@{nameof(AnimalOwner.NationalId)}", entity.NationalId)
-            .Replace($"@{nameof(AnimalOwner.IsActive)}", bool.TrueString)
-            .Replace($"@{nameof(AnimalOwner.CreateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(AnimalOwner.CreateUserId)}", Guid.NewGuid().ToString());
-        return await _dbConnection.QuerySingleAsync<AnimalOwner>(createQuery);
+        return await _dbConnection.QuerySingleAsync<AnimalOwner>(SqlQueries.AnimalOwnerRepositoryQueries.Create, new
+        {
+            entity.Fullname,
+            entity.EmailAddress,
+            entity.PhoneNumber,
+            entity.NationalId,
+            IsActive = true,
+            CreateDate = DateTime.UtcNow,
+            CreateUserId = Guid.NewGuid()
+        });
     }
 
     public async Task<bool> Delete(Guid id)
     {
-        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.AnimalOwnerRepositoryQueries.Delete.Replace($"@{nameof(AnimalOwner.Id).ToLower()}", id.ToString()));
+        int effectedRows = await _dbConnection.ExecuteAsync(SqlQueries.AnimalOwnerRepositoryQueries.Delete, new { id });
         return effectedRows > 0;
     }
 
     public async Task<AnimalOwner> Get(Guid id)
     {
-        return await _dbConnection.QueryFirstOrDefaultAsync<AnimalOwner>(SqlQueries.AnimalOwnerRepositoryQueries.Get.Replace($"@{nameof(AnimalOwner.Id).ToLower()}", id.ToString()));
+        return await _dbConnection.QueryFirstOrDefaultAsync<AnimalOwner>(SqlQueries.AnimalOwnerRepositoryQueries.Get, new { id });
     }
 
     public async Task<List<AnimalOwner>> GetAll()
@@ -47,22 +48,26 @@ public class AnimalOwnerRepository : IAnimalOwnerRepository
 
     public async Task<AnimalOwner> Update(AnimalOwner entity)
     {
-        string updateQuery = SqlQueries.AnimalOwnerRepositoryQueries.Update
-            .Replace($"@{nameof(AnimalOwner.Id).ToLower()}", entity.Id.ToString())
-            .Replace($"@{nameof(AnimalOwner.Fullname)}", entity.Fullname)
-            .Replace($"@{nameof(AnimalOwner.EmailAddress)}", entity.EmailAddress)
-            .Replace($"@{nameof(AnimalOwner.PhoneNumber)}", entity.PhoneNumber)
-            .Replace($"@{nameof(AnimalOwner.NationalId)}", entity.NationalId)
-            .Replace($"@{nameof(AnimalOwner.IsActive)}", bool.TrueString)
-            .Replace($"@{nameof(AnimalOwner.UpdateDate)}", DateTime.UtcNow.ToString())
-            .Replace($"@{nameof(AnimalOwner.UpdateUserId)}", Guid.NewGuid().ToString());
-        return await _dbConnection.QuerySingleAsync<AnimalOwner>(updateQuery);
+        return await _dbConnection.QuerySingleAsync<AnimalOwner>(SqlQueries.AnimalOwnerRepositoryQueries.Update, new
+        {
+            entity.Id,
+            entity.Fullname,
+            entity.EmailAddress,
+            entity.PhoneNumber,
+            entity.NationalId,
+            IsActive = true,
+            UpdateDate = DateTime.UtcNow,
+            UpdateUserId = Guid.NewGuid()
+        });
     }
 
     public async Task<bool> CheckIfAnimalOwnerExists(string nationalId)
     {
         string query = SqlQueries.AnimalOwnerRepositoryQueries.CheckIfAnimalOwnerExists.Replace($"@{nameof(AnimalOwner.NationalId)}", nationalId);
-        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(query);
+        IEnumerable<int> response = await _dbConnection.QueryAsync<int>(SqlQueries.AnimalOwnerRepositoryQueries.CheckIfAnimalOwnerExists, new
+        {
+            nationalId
+        });
         return response?.Count() > 0 && response.FirstOrDefault() == 1;
     }
 }
