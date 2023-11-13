@@ -4,7 +4,7 @@ using ShelterCare.Infrastructure.Repository.Extensions;
 using ShelterCare.Application.Extensions;
 using ShelterCare.Infrastructure.Logger.Extensions;
 using ShelterCare.API.Middlewares;
-using ShelterCare.Infrastructure.ExternalApis;
+using ShelterCare.Infrastructure.ExternalAPIs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
-app.MapHealthChecks("/healthz");
+app.MapHealthChecks("/health");
 
 app.UseHttpsRedirection();
 app.MapControllers();

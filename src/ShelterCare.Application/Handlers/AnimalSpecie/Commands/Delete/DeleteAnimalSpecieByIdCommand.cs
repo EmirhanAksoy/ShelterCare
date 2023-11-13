@@ -1,5 +1,4 @@
-﻿using MediatR;
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 
 public class DeleteAnimalSpecieByIdCommand : IRequest<Response<bool>>
 {

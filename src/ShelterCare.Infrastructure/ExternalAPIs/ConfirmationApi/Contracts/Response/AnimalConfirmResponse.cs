@@ -1,5 +1,5 @@
 ﻿
-namespace ShelterCare.Infrastructure.ExternalApis;
+namespace ShelterCare.Infrastructure.ExternalAPIs;
 internal class AnimalUniqueIdentifier
 {
     public string Name { get; set; } = string.Empty;

@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using ShelterCare.Core.Abstractions.Repository;
-
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 
 public class GetAllAnimalSpeciesQueryHandler : IRequestHandler<GetAllAnimalSpeciesQuery, Response<List<AnimalSpecie>>>
 {

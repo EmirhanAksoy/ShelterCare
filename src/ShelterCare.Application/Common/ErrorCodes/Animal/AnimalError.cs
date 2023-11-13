@@ -54,3 +54,10 @@ public class AnimalConfirmationFailed
     public const string Code = "ANIMAL-UNIQUE-ID-NOT-EXISTS";
     public const string Message = "Animal with given unique id not exists";
 }
+
+public class OwnerOfAnimalConfirmationFailed
+{
+    public const int EventId = 4008;
+    public const string Code = "ANIMAL-OWNER-NOT-MATHCHING";
+    public const string Message = "Animal owner is not matching ";
+}

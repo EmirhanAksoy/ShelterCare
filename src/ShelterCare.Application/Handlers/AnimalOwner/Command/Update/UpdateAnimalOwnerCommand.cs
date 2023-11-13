@@ -1,4 +1,3 @@
-using MediatR;
 namespace ShelterCare.Application;
 public class UpdateAnimalOwnerCommand : IRequest<Response<AnimalOwner>>
 {

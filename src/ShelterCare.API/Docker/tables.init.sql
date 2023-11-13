@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS AnimalOwners (
 CREATE TABLE IF NOT EXISTS Animal (
     Id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     ShelterId UUID,
-    OwnerId UUID,
+    OwnerId VARCHAR(255) NOT NULL,
     Name VARCHAR(255) NOT NULL,
     UniqueIdentifier VARCHAR(255) NOT NULL,
     DateOfBirth TIMESTAMP,

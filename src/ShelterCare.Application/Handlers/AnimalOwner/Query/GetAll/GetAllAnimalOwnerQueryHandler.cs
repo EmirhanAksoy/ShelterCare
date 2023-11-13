@@ -1,10 +1,4 @@
-﻿
-
-using MediatR;
-using Microsoft.Extensions.Logging;
-using ShelterCare.Core.Abstractions.Repository;
-
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 public class GetAllAnimalOwnerQueryHandler : IRequestHandler<GetAllAnimalOwnerQuery, Response<List<AnimalOwner>>>
 {
     private readonly IAnimalOwnerRepository _animalOwnerRepository;

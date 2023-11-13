@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 
-namespace ShelterCare.Infrastructure.ExternalApis;
+namespace ShelterCare.Infrastructure.ExternalAPIs;
 
 public static class ConfirmApiHttpClientExtension
 {

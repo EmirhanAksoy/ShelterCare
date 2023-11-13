@@ -1,4 +1,3 @@
-﻿using MediatR;
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 public class GetAllSheltersQuery : IRequest<Response<List<Shelter>>> { }
 

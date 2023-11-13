@@ -1,8 +1,6 @@
 ﻿
 using System.Net.Http.Json;
-
-namespace ShelterCare.Infrastructure.ExternalApis;
-
+namespace ShelterCare.Infrastructure.ExternalAPIs;
 public class ConfirmApiHandler
 {
     

@@ -1,7 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using ShelterCare.Core.Abstractions.Repository;
-using ShelterCare.Infrastructure.ExternalApis;
+﻿using ShelterCare.Infrastructure.ExternalAPIs;
 
 namespace ShelterCare.Application;
 public class UpdateAnimalOwnerCommandHandler : IRequestHandler<UpdateAnimalOwnerCommand, Response<AnimalOwner>>

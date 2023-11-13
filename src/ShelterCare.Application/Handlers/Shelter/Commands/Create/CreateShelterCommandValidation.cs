@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using ShelterCare.Core.Abstractions.Repository;
 
 namespace ShelterCare.Application;
 

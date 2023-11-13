@@ -1,4 +1,3 @@
-using MediatR;
 namespace ShelterCare.Application;
 public class GetAnimalOwnerByIdQuery : IRequest<Response<AnimalOwner>>
 {

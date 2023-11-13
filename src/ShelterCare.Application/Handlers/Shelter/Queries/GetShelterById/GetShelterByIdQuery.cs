@@ -1,5 +1,4 @@
-﻿using MediatR;
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 public class GetShelterByIdQuery : IRequest<Response<Shelter>>
 {
     public Guid Id { get; set; }

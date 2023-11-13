@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace ShelterCare.Application;
+﻿namespace ShelterCare.Application;
 
 public class GetAnimaSpecieByIdQuery : IRequest<Response<AnimalSpecie>>
 {
