@@ -30,4 +30,13 @@
     <ProjectReference Include="..\ShelterCare.Application\ShelterCare.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Docker\enable_uuid_ossp.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docker\tables.init.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -30,24 +30,10 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
         try
         {
             await _postgreSqlContainer.StartAsync();
-            await _postgreSqlContainer.ExecScriptAsync("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";");
-            await _postgreSqlContainer.ExecScriptAsync("""
-
-                CREATE TABLE IF NOT EXISTS Shelters (
-                Id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-                Name VARCHAR(255) NOT NULL,
-                OwnerFullName VARCHAR(255),
-                FoundationDate TIMESTAMP,
-                TotalAreaInSquareMeters DOUBLE PRECISION,
-                Address TEXT,
-                Website VARCHAR(255),
-                IsActive BOOLEAN NOT NULL,
-                CreateDate TIMESTAMP NOT NULL,
-                CreateUserId UUID NOT NULL,
-                UpdateDate TIMESTAMP,
-                UpdateUserId UUID
-            );
-            """);
+            string uuidExtension = await File.ReadAllTextAsync("./Docker/enable_uuid_ossp.sql");
+            string initScript = await File.ReadAllTextAsync("./Docker/tables.init.sql");
+            await _postgreSqlContainer.ExecScriptAsync(uuidExtension);
+            await _postgreSqlContainer.ExecScriptAsync(initScript);
         }
         catch (Exception)
         {
