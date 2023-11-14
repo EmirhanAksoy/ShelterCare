@@ -18,6 +18,7 @@ builder.Services.AddNpgsqlConnection(builder.Configuration.GetConnectionString("
 builder.Services.AddTransient<IShelterRepository, ShelterRepository>();
 builder.Services.AddTransient<IAnimalSpecieRepository, AnimalSpecieRepository>();
 builder.Services.AddTransient<IAnimalOwnerRepository, AnimalOwnerRepository>();
+builder.Services.AddTransient<IAnimalRepository, AnimalRepository>();
 builder.Services.AddMediatR();
 builder.Services.AddConfirmApi(builder.Configuration);
 

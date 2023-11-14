@@ -4,13 +4,19 @@ namespace ShelterCare.Application;
 public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, Response<Animal>>
 {
     private readonly IAnimalRepository _animalRepository;
+    private readonly IAnimalSpecieRepository _animalSpecieRepository;
+    private readonly IShelterRepository _shelterRepository;
+    private readonly IAnimalOwnerRepository _animalOwnerRepository;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<UpdateAnimalCommandHandler> _logger;
-    public UpdateAnimalCommandHandler(IAnimalRepository animalRepository, ILogger<UpdateAnimalCommandHandler> logger, IHttpClientFactory httpClientFactory)
+    public UpdateAnimalCommandHandler(IAnimalRepository animalRepository, ILogger<UpdateAnimalCommandHandler> logger, IHttpClientFactory httpClientFactory, IAnimalSpecieRepository animalSpecieRepository, IShelterRepository shelterRepository, IAnimalOwnerRepository animalOwnerRepository)
     {
         _animalRepository = animalRepository;
         _logger = logger;
         _httpClientFactory = httpClientFactory;
+        _animalSpecieRepository = animalSpecieRepository;
+        _shelterRepository = shelterRepository;
+        _animalOwnerRepository = animalOwnerRepository;
     }
 
 
@@ -27,20 +33,32 @@ public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, R
                 return Response<Animal>.ErrorResult(ValidationError.Code, ValidationError.Message);
             }
 
-            ConfirmApiHandler confirmApiHandler = new(_httpClientFactory);
-            bool ownerConfirmation = await confirmApiHandler.ConfirmOwner(request.OwnerId);
-            if (!ownerConfirmation)
+            Shelter shelter = await _shelterRepository.Get(request.ShelterId);
+            if (shelter is null)
             {
-                _logger.LogError("{Code} {Message} : {@animal}", AnimalOwnerConfirmationFailed.Code, AnimalOwnerConfirmationFailed.Message, request);
-                return Response<Animal>.ErrorResult(AnimalOwnerConfirmationFailed.Code, AnimalOwnerConfirmationFailed.Message);
+                _logger.LogError(ShelterNotFound.EventId, "{Code} {Message}  {shelterId}", ShelterNotFound.Code, ShelterNotFound.Message, request.ShelterId.ToString());
+                return Response<Animal>.ErrorResult(ShelterNotFound.Code, ShelterNotFound.Message);
             }
+            AnimalSpecie animalSpecie = await _animalSpecieRepository.Get(request.AnimalSpecieId);
+            if (animalSpecie is null)
+            {
+                _logger.LogError(ShelterNotFound.EventId, "{Code} {Message} {animalSpecieId}", AnimalSpecieNotFound.Code, AnimalSpecieNotFound.Message, request.AnimalSpecieId.ToString());
+                return Response<Animal>.ErrorResult(AnimalSpecieNotFound.Code, AnimalSpecieNotFound.Message);
+            }
+            AnimalOwner animalOwner = await _animalOwnerRepository.Get(request.OwnerId);
+            if (animalOwner is null)
+            {
+                _logger.LogError(AnimalOwnerNotFound.EventId, "{Code} {Message}  {animalOwnerId}", AnimalOwnerNotFound.Code, AnimalOwnerNotFound.Message, request.OwnerId.ToString());
+                return Response<Animal>.ErrorResult(AnimalOwnerNotFound.Code, AnimalOwnerNotFound.Message);
+            }
+            ConfirmApiHandler confirmApiHandler = new(_httpClientFactory);
             bool animaConfirmation = await confirmApiHandler.ConfirmAnimal(request.UniqueIdentifier);
             if (!animaConfirmation)
             {
                 _logger.LogError("{Code} {Message} : {@animal}", AnimalConfirmationFailed.Code, AnimalConfirmationFailed.Message, request);
                 return Response<Animal>.ErrorResult(CreateAnimalCommandFailed.Code, CreateAnimalCommandFailed.Message);
             }
-            bool ownerOfAnimalConfirmation = await confirmApiHandler.ConfirmAnimalOwner(request.OwnerId, request.UniqueIdentifier);
+            bool ownerOfAnimalConfirmation = await confirmApiHandler.ConfirmAnimalOwner(animalOwner.NationalId, request.UniqueIdentifier);
             if (!ownerOfAnimalConfirmation)
             {
                 _logger.LogError("{Code} {Message} : {@animal}", OwnerOfAnimalConfirmationFailed.Code, OwnerOfAnimalConfirmationFailed.Message, request);

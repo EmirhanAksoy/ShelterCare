@@ -4,9 +4,8 @@ public class AnimalUpdateRequest
 {
     public Guid Id { get; set; }
     public Guid ShelterId { get; set; }
-    public Guid? AreaId { get; set; }
     public Guid AnimalSpecieId { get; set; }
-    public string OwnerId { get; set; } = string.Empty;
+    public Guid OwnerId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string UniqueIdentifier { get; set; } = string.Empty;
     public DateTime DateOfBirth { get; set; }

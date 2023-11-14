@@ -1,7 +1,5 @@
 ﻿using ShelterCare.Core.Domain;
-
 namespace ShelterCare.Infrastructure.Repository.Queries;
-
 public static class SqlQueries
 {
     public static class ShelterRepositoryQueries
@@ -153,6 +151,7 @@ public static class SqlQueries
         {nameof(Animal.IsNeutered)} = @IsNeutered,
         {nameof(Animal.IsDisabled)} = @IsDisabled,
         {nameof(Animal.IsActive)} = @IsActive,
+        {nameof(Animal.AnimalSpecieId)} = @AnimalSpecieId,
         {nameof(Animal.UpdateDate)} = @UpdateDate,
         {nameof(Animal.UpdateUserId)} = @UpdateUserId
         WHERE id = @id
@@ -170,6 +169,7 @@ public static class SqlQueries
         {nameof(Animal.JoiningDate)},
         {nameof(Animal.IsNeutered)},
         {nameof(Animal.IsDisabled)},
+        {nameof(Animal.AnimalSpecieId)},
         {nameof(Animal.IsActive)},
         {nameof(Animal.CreateDate)},
         {nameof(Animal.CreateUserId)}
@@ -184,6 +184,7 @@ public static class SqlQueries
         @JoiningDate,
         @IsNeutered,
         @IsDisabled,
+        @AnimalSpecieId,
         @IsActive,
         @CreateDate,
         @CreateUserId

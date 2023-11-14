@@ -5,7 +5,6 @@ public class UpdateAnimalCommandValidation : AbstractValidator<UpdateAnimalComma
     public UpdateAnimalCommandValidation()
     {
         RuleFor(x => x.ShelterId).NotEmpty();
-        RuleFor(x => x.AreaId).NotEmpty();
         RuleFor(x => x.AnimalSpecieId).NotEmpty();
         RuleFor(x => x.OwnerId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();
