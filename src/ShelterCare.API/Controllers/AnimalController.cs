@@ -51,7 +51,8 @@ public class AnimalController : ControllerBase
         AnimalCreateRequestMapper animalCreateRequestMapper = new();
         var result = await _mediator.Send(animalCreateRequestMapper.CreateRequestToCommand(AnimalCreateRequest));
         if (result.ErrorCode == ValidationError.Code ||
-            result.ErrorCode == AnimalConfirmationFailed.Code)
+            result.ErrorCode == AnimalConfirmationFailed.Code ||
+            result.ErrorCode == OwnerOfAnimalConfirmationFailed.Code)
         {
             return BadRequest(result);
         }
@@ -67,7 +68,8 @@ public class AnimalController : ControllerBase
         AnimalUpdateRequestMapper animalUpdateRequestMapper = new();
         var result = await _mediator.Send(animalUpdateRequestMapper.UpdateRequestToCommand(AnimalUpdateRequest));
         if (result.ErrorCode == ValidationError.Code ||
-            result.ErrorCode == AnimalConfirmationFailed.Code)
+            result.ErrorCode == AnimalConfirmationFailed.Code ||
+            result.ErrorCode == OwnerOfAnimalConfirmationFailed.Code)
         {
             return BadRequest(result);
         }

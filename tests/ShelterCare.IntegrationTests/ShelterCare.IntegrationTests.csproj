@@ -31,9 +31,4 @@
     <ProjectReference Include="..\..\src\ShelterCare.API\ShelterCare.API.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\AnimalOwnerController\" />
-    <Folder Include="Controllers\AnimalController\" />
-  </ItemGroup>
-
 </Project>

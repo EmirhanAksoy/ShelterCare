@@ -1,14 +1,4 @@
-﻿using Bogus;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using ShelterCare.API.Contracts.Requests;
-using ShelterCare.API.Routes;
-using ShelterCare.Application;
-using ShelterCare.Core.Domain;
-using ShelterCare.IntegrationTests.ShelterCareApi;
-using System.Net;
-using System.Net.Http.Json;
-using Xunit.Abstractions;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
 

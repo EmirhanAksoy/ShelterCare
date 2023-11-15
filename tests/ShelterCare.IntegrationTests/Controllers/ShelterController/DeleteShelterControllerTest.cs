@@ -1,15 +1,4 @@
-﻿using Bogus;
-using FluentAssertions;
-using ShelterCare.API.Contracts.Requests;
-using ShelterCare.API.Routes;
-using ShelterCare.Application;
-using ShelterCare.Core.Domain;
-using ShelterCare.IntegrationTests.ShelterCareApi;
-using System.Net.Http.Json;
-using System.Net;
-using Xunit.Abstractions;
-
-namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
+﻿namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
 
 public class DeleteShelterControllerTest : IClassFixture<ShelterCareApiFactory>
 {

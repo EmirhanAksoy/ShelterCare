@@ -54,7 +54,7 @@ public class CreateAnimalCommandHandler : IRequestHandler<CreateAnimalCommand, R
             if (!animaConfirmation)
             {
                 _logger.LogError("{Code} {Message} : {@animal}", AnimalConfirmationFailed.Code, AnimalConfirmationFailed.Message, request);
-                return Response<Animal>.ErrorResult(CreateAnimalCommandFailed.Code, CreateAnimalCommandFailed.Message);
+                return Response<Animal>.ErrorResult(AnimalConfirmationFailed.Code, AnimalConfirmationFailed.Message);
             }
             bool ownerOfAnimalConfirmation = await confirmApiHandler.ConfirmAnimalOwner(animalOwner.NationalId, request.UniqueIdentifier);
             if (!ownerOfAnimalConfirmation)

@@ -1,1 +1,12 @@
+global using Bogus;
+global using FluentAssertions;
+global using ShelterCare.API.Contracts.Requests;
+global using ShelterCare.API.Routes;
+global using ShelterCare.Application;
+global using ShelterCare.Core.Domain;
+global using ShelterCare.IntegrationTests.ShelterCareApi;
+global using System.Net.Http.Json;
+global using System.Net;
+global using Xunit.Abstractions;
+global using ShelterCare.IntegrationTests.FakeApis.ConfirmationApi;
 global using Xunit;

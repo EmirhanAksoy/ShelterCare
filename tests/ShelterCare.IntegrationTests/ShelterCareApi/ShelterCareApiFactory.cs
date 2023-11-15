@@ -1,6 +1,4 @@
-﻿
-
-using Meziantou.Extensions.Logging.Xunit;
+﻿using Meziantou.Extensions.Logging.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -10,14 +8,16 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using ShelterCare.API.Marker;
+using ShelterCare.Infrastructure;
+using ShelterCare.IntegrationTests.FakeApis;
 using System.Data;
 using Testcontainers.PostgreSql;
-using Xunit.Abstractions;
 
 namespace ShelterCare.IntegrationTests.ShelterCareApi;
 public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLifetime
 {
     private ITestOutputHelper _testOutputHelper;
+    private readonly ConfirmationApiServer _confirmationApi = new();
 
     private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
            .WithDatabase("ShelterApiTestDb")
@@ -27,18 +27,12 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
     
     public async Task InitializeAsync()
     {
-        try
-        {
-            await _postgreSqlContainer.StartAsync();
-            string uuidExtension = await File.ReadAllTextAsync("./Docker/enable_uuid_ossp.sql");
-            string initScript = await File.ReadAllTextAsync("./Docker/tables.init.sql");
-            await _postgreSqlContainer.ExecScriptAsync(uuidExtension);
-            await _postgreSqlContainer.ExecScriptAsync(initScript);
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        await _postgreSqlContainer.StartAsync();
+        string UUIDExtension = await File.ReadAllTextAsync("./Docker/enable_uuid_ossp.sql");
+        string initScript = await File.ReadAllTextAsync("./Docker/tables.init.sql");
+        await _postgreSqlContainer.ExecScriptAsync(UUIDExtension);
+        await _postgreSqlContainer.ExecScriptAsync(initScript);
+        _confirmationApi.Start();
     }
 
     public ShelterCareApiFactory SetOutPut(ITestOutputHelper testOutputHelper)
@@ -65,6 +59,11 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
             {
                 return new NpgsqlConnection(_postgreSqlContainer.GetConnectionString());
             });
+
+            services.AddHttpClient(ExternalApiKeys.ConfirmApi, (httpClient) =>
+            {
+                httpClient.BaseAddress = _confirmationApi.Uri;
+            });
         });
 
         builder.ConfigureLogging(config =>
@@ -75,10 +74,13 @@ public class ShelterCareApiFactory : WebApplicationFactory<IApiMarker>,IAsyncLif
 
             config.Services.AddSingleton<ILoggerProvider>(new XUnitLoggerProvider(_testOutputHelper));
         });
+
+        ;
     }
 
     async Task IAsyncLifetime.DisposeAsync()
     {
+        _confirmationApi.Dispose();
         await _postgreSqlContainer.DisposeAsync();
     }
 }
