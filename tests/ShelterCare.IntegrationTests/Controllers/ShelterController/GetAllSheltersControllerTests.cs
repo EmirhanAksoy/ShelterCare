@@ -38,7 +38,8 @@ public class GetAllSheltersControllerTests : IClassFixture<ShelterCareApiFactory
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         shelterResponses.Data.Should().NotBeNull();
-        shelterResponses.Data.Count.Should().Be(shelters.Count);
+        // 1 record from seed data
+        shelterResponses.Data.Count.Should().Be(shelters.Count + 1);
         shelterResponses.Data.TrueForAll(x => shelters.Any(z => z.Data.Id.Equals(x.Id)));
         shelterResponses.Data.TrueForAll(x => shelters.Any(z => z.Data.Name.Equals(x.Name)));
         shelterResponses.Data.TrueForAll(x => shelters.Any(z => z.Data.Website.Equals(x.Website)));
@@ -58,6 +59,7 @@ public class GetAllSheltersControllerTests : IClassFixture<ShelterCareApiFactory
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         shelterResponses.Data.Should().NotBeNull();
-        shelterResponses.Data.Count.Should().Be(0);
+        // 1 record from seed data
+        shelterResponses.Data.Count.Should().Be(1);
     }
 }
