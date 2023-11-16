@@ -11,5 +11,7 @@ public class CreateAnimalCommandValidation : AbstractValidator<CreateAnimalComma
         RuleFor(x => x.UniqueIdentifier).NotEmpty();
         RuleFor(x => x.DateOfBirth).NotEmpty();
         RuleFor(x => x.JoiningDate).NotEmpty();
+        RuleFor(x => x.IsNeutered).NotNull();
+        RuleFor(x => x.IsDisabled).NotNull();
     }
 }

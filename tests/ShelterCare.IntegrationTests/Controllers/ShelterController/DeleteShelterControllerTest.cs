@@ -59,7 +59,6 @@ public class DeleteShelterControllerTest : IClassFixture<ShelterCareApiFactory>
     public async Task Delete_Not_Exist_Shelter()
     {
         // Arrange
-
         string notExistingId = Guid.NewGuid().ToString();
 
         // Act
@@ -72,7 +71,6 @@ public class DeleteShelterControllerTest : IClassFixture<ShelterCareApiFactory>
         shelterDeleteResponse.ErrorCode.Should().Be(ShelterNotFound.Code);
         shelterDeleteResponse.Errors.Count.Should().Be(1);
         shelterDeleteResponse.Errors.FirstOrDefault().Should().Be(ShelterNotFound.Message);
-
     }
 
 }

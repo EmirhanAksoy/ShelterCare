@@ -1,6 +1,5 @@
 ﻿namespace ShelterCare.IntegrationTests.Controllers.AnimalController;
-
-public class CreateAnimalControllerTest : IClassFixture<ShelterCareApiFactory>
+public class UpdateAnimalControllerTest : IClassFixture<ShelterCareApiFactory>
 {
     private readonly HttpClient _httpClient;
     private readonly ShelterCareApiFactory _shelterCareApiFactory;
@@ -27,15 +26,15 @@ public class CreateAnimalControllerTest : IClassFixture<ShelterCareApiFactory>
 
     private readonly Faker<AnimalSpecieCreateRequest> _animaSpecieGenerator = new Faker<AnimalSpecieCreateRequest>()
         .RuleFor(x => x.Name, faker => faker.Person.Avatar);
-        
-    public CreateAnimalControllerTest(ITestOutputHelper testOutputHelper, ShelterCareApiFactory shelterCareApiFactory)
+
+    public UpdateAnimalControllerTest(ITestOutputHelper testOutputHelper, ShelterCareApiFactory shelterCareApiFactory)
     {
         _shelterCareApiFactory = shelterCareApiFactory.SetOutPut(testOutputHelper);
         _httpClient = _shelterCareApiFactory.CreateClient();
     }
 
-    [Fact(DisplayName = "Create Animal With Valid Input,Valid Animal Identifier,Matching Owner")]
-    public async Task Create_Animal_With_Valid_Input_Valid_Animal_Identifier_Matching_Owner()
+    [Fact(DisplayName = "Update Animal With Valid Input,Valid Animal Identifier,Matching Owner")]
+    public async Task Update_Animal_With_Valid_Input_Valid_Animal_Identifier_Matching_Owner()
     {
         // Arrange
         AnimalCreateRequest animalCreateRequest = _animalGenerator.Generate();
@@ -55,30 +54,33 @@ public class CreateAnimalControllerTest : IClassFixture<ShelterCareApiFactory>
         animalCreateRequest.ShelterId = shelterCreateResponse.Data.Id;
         animalCreateRequest.OwnerId = animalOwnerCreateResponse.Data.Id;
         animalCreateRequest.AnimalSpecieId = animalSpecieCreateResponse.Data.Id;
+        HttpResponseMessage animaCreateHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalRoutes.Create, animalCreateRequest);
+        Response<Animal> animalCreateResponse = await animaCreateHttpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
+
+        animalCreateResponse.Data.UniqueIdentifier = ValidAnimalOwnerMapV1.LOKUM_IDENTIFIER;
+        animalCreateResponse.Data.Name = ValidAnimalOwnerMapV1.LOKUM;
 
         // Act
-        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalRoutes.Create, animalCreateRequest);
-        Response<Animal> animalCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
+        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync(AnimalRoutes.Update, animalCreateResponse.Data);
+        Response<Animal> animalUpdateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        animalCreateResponse.Data.Should().NotBeNull();
-        animalCreateResponse.Data.Id.Should().NotBeEmpty();
-        animalCreateResponse.Data.UniqueIdentifier.Should().NotBeEmpty();
-        animalCreateResponse.Data.UniqueIdentifier.Should().Be(animalCreateRequest.UniqueIdentifier);
-        animalCreateResponse.Data.Name.Should().NotBeEmpty();
-        animalCreateResponse.Data.Name.Should().Be(animalCreateRequest.Name);
-        animalCreateResponse.Data.CreateDate.Should().NotBe(DateTime.MinValue);
-        animalCreateResponse.Data.CreateUserId.Should().NotBeEmpty();
+        animalUpdateResponse.Data.Should().NotBeNull();
+        animalUpdateResponse.Data.Id.Should().NotBeEmpty();
+        animalUpdateResponse.Data.UniqueIdentifier.Should().NotBeEmpty();
+        animalUpdateResponse.Data.UniqueIdentifier.Should().Be(ValidAnimalOwnerMapV1.LOKUM_IDENTIFIER);
+        animalUpdateResponse.Data.Name.Should().NotBeEmpty();
+        animalUpdateResponse.Data.Name.Should().Be(ValidAnimalOwnerMapV1.LOKUM);
+        animalUpdateResponse.Data.CreateDate.Should().NotBe(DateTime.MinValue);
+        animalUpdateResponse.Data.CreateUserId.Should().NotBeEmpty();
     }
 
-    [Fact(DisplayName = "Create Animal With Valid Input,Invalid Animal Identifier,Matching Owner")]
-    public async Task Create_Animal_With_Valid_Input_Invalid_Animal_Identifier_Matching_Owner()
+    [Fact(DisplayName = "Update Animal With Valid Input,Invalid Animal Identifier,Matching Owner")]
+    public async Task Update_Animal_With_Valid_Input_Invalid_Animal_Identifier_Matching_Owner()
     {
         // Arrange
-        AnimalCreateRequest animalCreateRequest = _animalGenerator.Clone()
-                .RuleFor(x => x.UniqueIdentifier, faker => "XXXX")
-                .Generate();
+        AnimalCreateRequest animalCreateRequest = _animalGenerator.Generate();
 
         ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
         HttpResponseMessage shelterHttpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
@@ -88,30 +90,31 @@ public class CreateAnimalControllerTest : IClassFixture<ShelterCareApiFactory>
         HttpResponseMessage animalOwnerHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalOwnerRoutes.Create, animalOwnerCreateRequest);
         Response<AnimalOwner> animalOwnerCreateResponse = await animalOwnerHttpResponseMessage.Content.ReadFromJsonAsync<Response<AnimalOwner>>();
 
-        AnimalSpecieCreateRequest animalSpecieCreateRequest = _animaSpecieGenerator.Clone()
-                .RuleFor(x => x.Name, faker => "Dragon")
-                .Generate(); ;
+        AnimalSpecieCreateRequest animalSpecieCreateRequest = _animaSpecieGenerator.Generate();
         HttpResponseMessage animalSpecieHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalSpecieRoutes.Create, animalSpecieCreateRequest);
         Response<AnimalSpecie> animalSpecieCreateResponse = await animalSpecieHttpResponseMessage.Content.ReadFromJsonAsync<Response<AnimalSpecie>>();
 
         animalCreateRequest.ShelterId = shelterCreateResponse.Data.Id;
         animalCreateRequest.OwnerId = animalOwnerCreateResponse.Data.Id;
         animalCreateRequest.AnimalSpecieId = animalSpecieCreateResponse.Data.Id;
+        HttpResponseMessage animaCreateHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalRoutes.Create, animalCreateRequest);
+        Response<Animal> animalCreateResponse = await animaCreateHttpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
 
+        animalCreateResponse.Data.UniqueIdentifier = "XXXX";
         // Act
-        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalRoutes.Create, animalCreateRequest);
-        Response<Animal> animalCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
+        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync(AnimalRoutes.Update, animalCreateResponse.Data);
+        Response<Animal> animalUpdateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        animalCreateResponse.Data.Should().BeNull();
-        animalCreateResponse.Errors.Count().Should().BeGreaterThan(0);
-        animalCreateResponse.Errors.FirstOrDefault().Should().Be(AnimalConfirmationFailed.Message);
-        animalCreateResponse.ErrorCode.Should().Be(AnimalConfirmationFailed.Code);
+        animalUpdateResponse.Data.Should().BeNull();
+        animalUpdateResponse.Errors.Count().Should().BeGreaterThan(0);
+        animalUpdateResponse.Errors.FirstOrDefault().Should().Be(AnimalConfirmationFailed.Message);
+        animalUpdateResponse.ErrorCode.Should().Be(AnimalConfirmationFailed.Code);
     }
 
-    [Fact(DisplayName = "Create Animal With Valid Input,Invalid Animal Identifier,Not Matching Owner")]
-    public async Task Create_Animal_With_Valid_Input_Valid_Animal_Identifier_Not_Matching_Owner()
+    [Fact(DisplayName = "Update Animal With Valid Input,Invalid Animal Identifier,Not Matching Owner")]
+    public async Task Update_Animal_With_Valid_Input_Valid_Animal_Identifier_Not_Matching_Owner()
     {
         // Arrange
         AnimalCreateRequest animalCreateRequest = _animalGenerator.Generate();
@@ -120,32 +123,37 @@ public class CreateAnimalControllerTest : IClassFixture<ShelterCareApiFactory>
         HttpResponseMessage shelterHttpResponseMessage = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
         Response<Shelter> shelterCreateResponse = await shelterHttpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
 
-        AnimalOwnerCreateRequest animalOwnerCreateRequest = _animalOwnerGenerator.Clone()
-                .RuleFor(x => x.NationalId, faker =>ValidAnimalOwnerMapV2.OwnerNationalId)
-                .Generate();
+        AnimalOwnerCreateRequest animalOwnerCreateRequest = _animalOwnerGenerator.Generate();
         HttpResponseMessage animalOwnerHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalOwnerRoutes.Create, animalOwnerCreateRequest);
         Response<AnimalOwner> animalOwnerCreateResponse = await animalOwnerHttpResponseMessage.Content.ReadFromJsonAsync<Response<AnimalOwner>>();
 
-        AnimalSpecieCreateRequest animalSpecieCreateRequest = _animaSpecieGenerator.Clone()
-                .RuleFor(x => x.Name, faker => "Phoenix")
-                .Generate(); ;
+        AnimalSpecieCreateRequest animalSpecieCreateRequest = _animaSpecieGenerator.Generate();
         HttpResponseMessage animalSpecieHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalSpecieRoutes.Create, animalSpecieCreateRequest);
         Response<AnimalSpecie> animalSpecieCreateResponse = await animalSpecieHttpResponseMessage.Content.ReadFromJsonAsync<Response<AnimalSpecie>>();
 
         animalCreateRequest.ShelterId = shelterCreateResponse.Data.Id;
         animalCreateRequest.OwnerId = animalOwnerCreateResponse.Data.Id;
         animalCreateRequest.AnimalSpecieId = animalSpecieCreateResponse.Data.Id;
+        HttpResponseMessage animaCreateHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalRoutes.Create, animalCreateRequest);
+        Response<Animal> animalCreateResponse = await animaCreateHttpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
 
+        AnimalOwnerCreateRequest animalNotMatchingOwnerCreateRequest = _animalOwnerGenerator
+                .RuleFor(x => x.NationalId, faker => ValidAnimalOwnerMapV2.OwnerNationalId)
+                .Generate();
+        HttpResponseMessage animalNotMatchingOwnerHttpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalOwnerRoutes.Create, animalNotMatchingOwnerCreateRequest);
+        Response<AnimalOwner> animalNotMatchingOwnerOwnerCreateResponse = await animalNotMatchingOwnerHttpResponseMessage.Content.ReadFromJsonAsync<Response<AnimalOwner>>();
+
+        animalCreateResponse.Data.OwnerId = animalNotMatchingOwnerOwnerCreateResponse.Data.Id;
         // Act
-        HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync(AnimalRoutes.Create, animalCreateRequest);
-        Response<Animal> animalCreateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
+        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync(AnimalRoutes.Update, animalCreateResponse.Data);
+        Response<Animal> animalUpdateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Animal>>();
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        animalCreateResponse.Data.Should().BeNull();
-        animalCreateResponse.Errors.Count().Should().BeGreaterThan(0);
-        animalCreateResponse.Errors.FirstOrDefault().Should().Be(OwnerOfAnimalConfirmationFailed.Message);
-        animalCreateResponse.ErrorCode.Should().Be(OwnerOfAnimalConfirmationFailed.Code);
+        animalUpdateResponse.Data.Should().BeNull();
+        animalUpdateResponse.Errors.Count().Should().BeGreaterThan(0);
+        animalUpdateResponse.Errors.FirstOrDefault().Should().Be(OwnerOfAnimalConfirmationFailed.Message);
+        animalUpdateResponse.ErrorCode.Should().Be(OwnerOfAnimalConfirmationFailed.Code);
     }
 
 }

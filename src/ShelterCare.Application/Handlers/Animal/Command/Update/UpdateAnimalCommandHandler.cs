@@ -30,7 +30,7 @@ public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, R
             {
                 List<string> errorMessages = validationResult.Errors.ConvertAll(x => x.ErrorMessage);
                 _logger.LogError("{Code} {Message} : {@errorMessages}", ValidationError.Code, ValidationError.Message, errorMessages);
-                return Response<Animal>.ErrorResult(ValidationError.Code, ValidationError.Message);
+                return Response<Animal>.ErrorResult(ValidationError.Code, errorMessages);
             }
 
             Shelter shelter = await _shelterRepository.Get(request.ShelterId);
@@ -56,7 +56,7 @@ public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, R
             if (!animaConfirmation)
             {
                 _logger.LogError("{Code} {Message} : {@animal}", AnimalConfirmationFailed.Code, AnimalConfirmationFailed.Message, request);
-                return Response<Animal>.ErrorResult(CreateAnimalCommandFailed.Code, CreateAnimalCommandFailed.Message);
+                return Response<Animal>.ErrorResult(AnimalConfirmationFailed.Code, AnimalConfirmationFailed.Message);
             }
             bool ownerOfAnimalConfirmation = await confirmApiHandler.ConfirmAnimalOwner(animalOwner.NationalId, request.UniqueIdentifier);
             if (!ownerOfAnimalConfirmation)
@@ -76,6 +76,7 @@ public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommand, R
                 DateOfBirth = request.DateOfBirth,
                 ShelterId = request.ShelterId,
                 Name = request.Name,
+                Id = request.Id
             });
 
             _logger.LogInformation("Animal updated successfully {@animal}", updatedAnimal);

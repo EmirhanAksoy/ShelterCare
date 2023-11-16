@@ -10,3 +10,4 @@ global using System.Net;
 global using Xunit.Abstractions;
 global using ShelterCare.IntegrationTests.FakeApis.ConfirmationApi;
 global using Xunit;
+global using Xunit.Priority;

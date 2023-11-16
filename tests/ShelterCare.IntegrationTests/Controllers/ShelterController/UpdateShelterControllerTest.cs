@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text;
-
-namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
+﻿namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
 
 public class UpdateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
 {
@@ -39,12 +36,7 @@ public class UpdateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
             Website = "www.happy-animals.com"
         };
         // Act
-        using StringContent jsonContent = new(
-        JsonSerializer.Serialize(shelterUpdateRequest),
-        Encoding.UTF8,
-        "application/json");
-
-        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsync(ShelterRoutes.Update, jsonContent);
+        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync(ShelterRoutes.Update, shelterUpdateRequest);
         Response<Shelter> shelterUpdateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
 
         //Assert
@@ -74,14 +66,8 @@ public class UpdateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
             Website = "www.happy-animals.com"
         };
         // Act
-        using StringContent jsonContent = new(
-        JsonSerializer.Serialize(shelterUpdateRequest),
-        Encoding.UTF8,
-        "application/json");
-
-        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsync(ShelterRoutes.Update, jsonContent);
+        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync(ShelterRoutes.Update, shelterUpdateRequest);
         Response<Shelter> shelterUpdateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
-
         //Assert
         httpResponseMessage.Should().NotBeNull();
         httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -108,12 +94,7 @@ public class UpdateShelterControllerTest : IClassFixture<ShelterCareApiFactory>
             Website = "www.happy-animals.com"
         };
         // Act
-        using StringContent jsonContent = new(
-        JsonSerializer.Serialize(shelterUpdateRequest),
-        Encoding.UTF8,
-        "application/json");
-
-        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsync(ShelterRoutes.Update, jsonContent);
+        HttpResponseMessage httpResponseMessage = await _httpClient.PutAsJsonAsync(ShelterRoutes.Update, shelterUpdateRequest);
         Response<Shelter> shelterUpdateResponse = await httpResponseMessage.Content.ReadFromJsonAsync<Response<Shelter>>();
 
         //Assert

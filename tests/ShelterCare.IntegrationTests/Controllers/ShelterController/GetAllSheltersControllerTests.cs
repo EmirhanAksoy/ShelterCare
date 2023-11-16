@@ -1,5 +1,6 @@
 ﻿namespace ShelterCare.IntegrationTests.Controllers.ShelterController;
 
+[TestCaseOrderer(PriorityOrderer.Name, PriorityOrderer.Assembly)]
 public class GetAllSheltersControllerTests : IClassFixture<ShelterCareApiFactory>
 {
     private readonly HttpClient _httpClient;
@@ -17,7 +18,7 @@ public class GetAllSheltersControllerTests : IClassFixture<ShelterCareApiFactory
         _httpClient = _shelterCareApiFactory.CreateClient();
     }
 
-    [Fact(DisplayName = "Get All Shelters With Existing Records")]
+    [Fact(DisplayName = "Get All Shelters With Existing Records"), Priority(2)]
     public async Task Get_All_Shelters_With_Existing_Records()
     {
         // Arrange
@@ -26,8 +27,8 @@ public class GetAllSheltersControllerTests : IClassFixture<ShelterCareApiFactory
         {
             ShelterCreateRequest shelterCreateRequest = _shelterGenerator.Generate();
             var response = await _httpClient.PostAsJsonAsync(ShelterRoutes.Create, shelterCreateRequest);
-            var shelterReponse = await response.Content.ReadFromJsonAsync<Response<Shelter>>();
-            shelters.Add(shelterReponse);
+            var shelterResponse = await response.Content.ReadFromJsonAsync<Response<Shelter>>();
+            shelters.Add(shelterResponse);
         }
 
         // Act
@@ -46,7 +47,7 @@ public class GetAllSheltersControllerTests : IClassFixture<ShelterCareApiFactory
         shelterResponses.Data.TrueForAll(x => shelters.Any(z => z.Data.OwnerFullName.Equals(x.OwnerFullName)));
     }
 
-    [Fact(DisplayName = "Get All Shelters With No Records")]
+    [Fact(DisplayName = "Get All Shelters With No Records"), Priority(1)]
     public async Task Get_All_Shelters_With_No_Records()
     {
         // Arrange
