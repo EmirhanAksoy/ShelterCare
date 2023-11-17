@@ -48,9 +48,6 @@ To get started with the Shelter Care Application, follow these steps:
    - Open the terminal on ```..ShelterCare\src\ShelterCare.API\Docker```
    - Run ```docker-compose up```
 
-
-We welcome contributions from the community! If you'd like to contribute to the Shelter Care Application, please follow our [contributing guidelines](CONTRIBUTING.md).
-
 ## License
 
 The Shelter Care Application is open-source software licensed under the [MIT License](LICENSE.md). You are free to use, modify, and distribute it as per the terms of the license.
