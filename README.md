@@ -6,12 +6,8 @@ The Shelter Care Application is a monolithic software solution designed to help 
 
 - [Introduction](#introduction)
 - [Technology Stack](#technology-stack)
-- [Features](#features)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -33,24 +29,6 @@ The Shelter Care Application is developed using the following technologies:
 
 - **PostgreSQL**: PostgreSQL is the chosen relational database management system, offering robust data storage and retrieval capabilities.
 
-## Features
-
-The Shelter Care Application provides the following features:
-
-- **Animal Management**: Record and manage information about animals in the shelter, including their species, breed, age, medical history, and adoption status.
-
-- **Employee Management**: Manage employee details, including their roles, contact information, and employment history.
-
-- **Area Management**: Organize the shelter into different areas, track their capacity, and manage the animals housed in each area.
-
-- **Logging**: Utilize Serilog for comprehensive logging, helping administrators troubleshoot issues and maintain system health.
-
-- **Validation**: Implement Fluent Validation to ensure that data entered into the system is valid and consistent.
-
-- **CQRS & Mediator**: Employ the CQRS pattern to separate command and query responsibilities, enhancing the maintainability and scalability of the application.
-
-- **Database Integration**: Utilize PostgreSQL for robust data storage and retrieval, ensuring data consistency and reliability.
-
 ## Getting Started
 
 To get started with the Shelter Care Application, follow these steps:
@@ -63,22 +41,12 @@ To get started with the Shelter Care Application, follow these steps:
    git clone https://github.com/EmirhanAksoy/ShelterCare.git
    ```
 
-2. **Set Up PostgreSQL**: Install and set up PostgreSQL as the database system for the application. Ensure you have the necessary connection string information.
+2. **Set Up**:
+   
+   - Install [Docker](https://www.docker.com/products/docker-desktop/) desktop
+   - Open the terminal on ```..ShelterCare\src\ShelterCare.API\Docker```
+   - Run ```docker-compose up```
 
-3. **Configure App Settings**: Modify the application's configuration settings, including the database connection string and other environment-specific variables.
-
-4. **Build and Run**: Build and run the application using .NET 7.
-
-   ```bash
-   dotnet build
-   dotnet run
-   ```
-
-## Usage
-
-Once the application is up and running, you can access it via a web interface or API endpoints. Refer to the application's documentation for detailed instructions on how to use each feature.
-
-## Contributing
 
 We welcome contributions from the community! If you'd like to contribute to the Shelter Care Application, please follow our [contributing guidelines](CONTRIBUTING.md).
 
