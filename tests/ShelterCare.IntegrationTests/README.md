@@ -1,4 +1,4 @@
-# Integration Test Project
+# Integration Test
 
 This readme provides a brief overview of the libraries used in your integration test project along with their versions. Ensure you have the necessary NuGet packages installed and configured before running your tests.
 
