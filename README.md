@@ -8,6 +8,7 @@ The Shelter Care Application is a monolithic software solution designed to help 
 - [Technology Stack](#technology-stack)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
+- [License](#license)
 
 ## Introduction
 
