@@ -8,6 +8,7 @@ The Shelter Care Application is a monolithic software solution designed to help 
 - [Technology Stack](#technology-stack)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
+- [Integration Testing](https://github.com/EmirhanAksoy/ShelterCare/blob/main/tests/ShelterCare.IntegrationTests/README.md)
 - [License](#license)
 
 ## Introduction
